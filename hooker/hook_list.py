@@ -19,11 +19,10 @@ class HookList(list):
             raise HookException(
                 "Dependencies not met for: %s" %
                 ", ".join([x.__name__ + ":" + x.__module__
-                           for x in self.later]))
+                          for x in self.later])
+            )
 
         for func in self:
-            # print('Calling %s from module %s with args: %s and kwargs: %s' %
-            #       (func.__name__, func.__module__, args, kwargs))
             # Skip extension if it doens't accept the arguments passed
             try:
                 inspect.signature(func).bind(*args, **kwargs)
@@ -37,9 +36,14 @@ class HookList(list):
         """Checks if given hook module has been loaded"""
         if name is None:
             return True
+
+        if isinstance(name, str):
+            return (name in [x.__module__ for x in self])
+
         if isinstance(name, Iterable):
             return set(name).issubset(self)
-        return name in [x.__module__ for x in self]
+
+        return False
 
     def hook(self, function, dependencies=None):
         """Tries to load a hook"""
