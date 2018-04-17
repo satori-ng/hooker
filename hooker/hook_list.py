@@ -10,16 +10,19 @@ class HookException(Exception):
 
 class HookList(list):
     """Profesional grade list of hooks. Manages dependcy checking n' shit"""
-    # If an extension is loaded before all its dependencies are loaded, put it
-    # in this list and try to load it again after loading more extensions
-    later = []
+
+    def __init__(self, *args, **kwargs):
+        # If an extension is loaded before all its dependencies are loaded, put
+        # it in this list and try to load it after loading the next extension
+        self._later = []
+        super().__init__(*args, **kwargs)
 
     def __call__(self, *args, **kwargs):
-        if self.later:
+        if self._later:
             raise HookException(
                 "Dependencies not met for: %s" %
                 ", ".join([x.__name__ + ":" + x.__module__
-                          for x in self.later])
+                          for x in self._later])
             )
 
         for func in self:
@@ -28,7 +31,7 @@ class HookList(list):
                 inspect.signature(func).bind(*args, **kwargs)
             except TypeError:
                 # TODO: Add logging for skipped extensions
-                print("Skipping {} ".format(func))
+                print("Skipping %s" % func.__name__)
                 continue
             func(*args, **kwargs)
 
@@ -41,7 +44,11 @@ class HookList(list):
             return (name in [x.__module__ for x in self])
 
         if isinstance(name, Iterable):
-            return set(name).issubset(self)
+            # return set(name).issubset(self)
+            for n in name:
+                if not self.isloaded(n):
+                    return False
+            return True
 
         return False
 
@@ -56,9 +63,9 @@ class HookList(list):
         if self.isloaded(function.__deps__):
             self.append(function)
         else:
-            self.later.append(function)
+            self._later.append(function)
 
-        for ext in self.later:
+        for ext in self._later:
             if self.isloaded(ext.__deps__):
-                self.later.remove(ext)
+                self._later.remove(ext)
                 self.hook(ext)

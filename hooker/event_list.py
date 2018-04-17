@@ -25,8 +25,18 @@ class EventList():
 
         raise EventException("De hell did you give me as an event name? O.o")
 
-    def hook(self, event, function, dependencies=None):
+    def hook(self, function, event, dependencies):
         """Tries to load the hook to the event"""
+        if event is None:
+            for e in self._events.keys():
+                self.hook(function, e, dependencies)
+            return
+
+        if not isinstance(event, str) and isinstance(event, Iterable):
+            for e in event:
+                self.hook(function, e, dependencies)
+            return
+
         event_list = self._events.get(event, None)
         if event_list is None:
             raise EventException(
