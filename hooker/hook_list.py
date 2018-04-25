@@ -15,22 +15,22 @@ class HookList(list):
         # If an extension is loaded before all its dependencies are loaded, put
         # it in this list and try to load it after loading the next extension
         self._later = []
-        super().__init__(*args, **kwargs)
+        super(HookList, self).__init__(*args, **kwargs)
 
     def __call__(self, *args, **kwargs):
         if self._later:
             raise HookException(
                 "Dependencies not met for: %s" %
                 ", ".join([x.__name__ + ":" + x.__module__
-                          for x in self._later])
+                           for x in self._later])
             )
 
         for func in self:
             # Skip extension if it doens't accept the arguments passed
             try:
-                inspect.signature(func).bind(*args, **kwargs)
+                # Using deprecated getcallargs to be python2 compatible
+                inspect.getcallargs(func, *args, **kwargs)
             except TypeError:
-                # TODO: Add logging for skipped extensions
                 print("Skipping %s" % func.__name__)
                 continue
             func(*args, **kwargs)
