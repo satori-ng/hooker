@@ -39,10 +39,9 @@ class EventList():
 
         event_list = self._events.get(event, None)
         if event_list is None:
-            raise EventException(
-                "Invalid key provided '%s'. Valid options: %s" %
-                (event, ", ".join(self._events.keys()))
-            )
+            print("Invalid key provided '%s'. Valid options: %s" %
+                  (event, ", ".join(self._events.keys())))
+            return
 
         event_list.hook(function, dependencies)
 
