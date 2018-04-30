@@ -1,5 +1,6 @@
 from collections import Iterable
 
+from hooker.logger import logger
 from hooker.hook_list import HookList
 
 
@@ -39,8 +40,10 @@ class EventList():
 
         event_list = self._events.get(event, None)
         if event_list is None:
-            print("Invalid key provided '%s'. Valid options: %s" %
-                  (event, ", ".join(self._events.keys())))
+            logger.warning(
+                "Invalid key provided '%s'. Valid options: %s"
+                % (event, ", ".join(self._events.keys()))
+            )
             return
 
         event_list.hook(function, dependencies)

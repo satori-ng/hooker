@@ -1,6 +1,10 @@
 """The HookList class"""
+import logging
 import inspect
 from collections import Iterable
+
+
+logger = logging.getLogger(__name__)
 
 
 class HookException(Exception):
@@ -31,7 +35,7 @@ class HookList(list):
                 # Using deprecated getcallargs to be python2 compatible
                 inspect.getcallargs(func, *args, **kwargs)
             except TypeError:
-                print("Skipping %s" % func.__name__)
+                logger.warning("Skipping %s" % func.__name__)
                 continue
             func(*args, **kwargs)
 
