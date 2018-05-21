@@ -1,11 +1,17 @@
 import logging
-from configparser import SafeConfigParser
+try:
+    from configparser import SafeConfigParser, NoSectionError
+except ImportError:
+    from ConfigParser import SafeConfigParser, NoSectionError
 
 
 config = SafeConfigParser()
 config.read('config.ini')
-LOG_LEVEL = config.get('hooker', 'log_lvl')
-LOG_LEVEL = getattr(logging, LOG_LEVEL, logging.ERROR)
+try:
+    LOG_LEVEL = config.get('hooker', 'log_lvl')
+    LOG_LEVEL = getattr(logging, LOG_LEVEL, logging.ERROR)
+except NoSectionError:
+    LOG_LEVEL = logging.ERROR
 
 handler = logging.StreamHandler()
 

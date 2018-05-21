@@ -22,6 +22,9 @@ hooker.EVENTS.append(["on_start", "with_open"])
 import foo
 import test
 import anothertest
+
+hooker.EVENTS["on_start"]()
+hooker.EVENTS["on_start"]("/tmp/path", 1234)
 ```
 
 `foo.py`
