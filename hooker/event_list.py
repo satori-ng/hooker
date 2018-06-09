@@ -28,16 +28,19 @@ class EventList():
 
     def hook(self, function, event, dependencies):
         """Tries to load the hook to the event"""
+        # Hooks all events (recursively)
         if event is None:
             for e in self._events.keys():
                 self.hook(function, e, dependencies)
             return
 
+        # Hook multiple, but specific events (recursively)
         if not isinstance(event, str) and isinstance(event, Iterable):
             for e in event:
                 self.hook(function, e, dependencies)
             return
 
+        # Hook a simple event
         event_list = self._events.get(event, None)
         if event_list is None:
             logger.warning(
@@ -46,7 +49,7 @@ class EventList():
             )
             return
 
-        event_list.hook(function, dependencies)
+        return event_list.hook(function, dependencies)
 
     def __getitem__(self, name):
         """Get the HookList"""

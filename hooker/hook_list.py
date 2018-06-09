@@ -29,6 +29,8 @@ class HookList(list):
                            for x in self._later])
             )
 
+        retval = {}
+
         for func in self:
             # Skip extension if it doens't accept the arguments passed
             try:
@@ -37,7 +39,9 @@ class HookList(list):
             except TypeError:
                 logger.warning("Skipping %s" % func.__name__)
                 continue
-            func(*args, **kwargs)
+            retval[func] = func(*args, **kwargs)
+
+        return retval
 
     def isloaded(self, name):
         """Checks if given hook module has been loaded"""
@@ -61,6 +65,7 @@ class HookList(list):
         if not isinstance(dependencies, (Iterable, type(None), str)):
             raise HookException("Invalid list of dependencies provided!")
 
+        # Tag the function with its dependencies
         if not hasattr(function, "__deps__"):
             function.__deps__ = dependencies
 
