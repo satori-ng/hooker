@@ -32,13 +32,17 @@ hooker.EVENTS["on_start"]("/tmp/path", 1234)
 @hook("on_start")
 def bar():
 	print("I'll be called when crawler starts!")
+	return "hello"
 ```
 
 `test.py`
 ```python
+import foo
+
 @hook("on_start", "foo")
-def foo():
+def foo(retvals):
 	print("I'll be called when crawler starts, but after `foo` hooks!")
+	print(retvals[foo.bar]) # Will print "hello"
 ```
 
 `anothertest.py`

@@ -30,16 +30,28 @@ class HookList(list):
             )
 
         retval = {}
+        if not kwargs:
+            kwargs = {}
 
         for func in self:
+            signature = inspect.getargspec(func)
+            # Search the position of the positional argument "retvals"
+            position = tuple(x for x in range(len(signature.args)) if signature.args[x] == "retvals")
+            nargs = list(args)
+            if position:
+                # Put return values in
+                nargs.insert(position[0], retval)
+
             # Skip extension if it doens't accept the arguments passed
             try:
                 # Using deprecated getcallargs to be python2 compatible
-                inspect.getcallargs(func, *args, **kwargs)
+                inspect.getcallargs(func, *nargs, **kwargs)
             except TypeError:
+                print(signature)
                 logger.warning("Skipping %s" % func.__name__)
                 continue
-            retval[func] = func(*args, **kwargs)
+
+            retval[func] = func(*nargs, **kwargs)
 
         return retval
 
