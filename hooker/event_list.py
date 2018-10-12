@@ -1,4 +1,5 @@
 from collections import Iterable
+from inspect import getframeinfo, stack
 
 from hooker.logger import logger
 from hooker.hook_list import HookList
@@ -12,19 +13,18 @@ class EventException(Exception):
 class EventList():
     """A list that holds all the events, each of which hold all hooks"""
     _events = {}
+    _help = {}
 
-    def append(self, event):
+    def append(self, event, help=""):
         """Creates a new event. `event` may be iterable or string"""
         if isinstance(event, str):
             self._events[event] = HookList()
-            return
-
-        if isinstance(event, Iterable):
+            self._help[event] = (help, getframeinfo(stack()[1][0]))
+        elif isinstance(event, Iterable):
             for name in event:
                 self.append(name)
-            return
-
-        raise EventException("De hell did you give me as an event name? O.o")
+        else:
+            raise EventException("De hell did you give me as an event name? O.o")
 
     def hook(self, function, event, dependencies):
         """Tries to load the hook to the event"""

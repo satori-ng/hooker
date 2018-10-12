@@ -1,6 +1,6 @@
 import hooker
 
-hooker.EVENTS.append("test1")
+hooker.EVENTS.append("test1", "This is the first hook. Where am I defined?")
 
 import dep_and_event
 import iterables
