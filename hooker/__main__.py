@@ -5,7 +5,10 @@ from .api import EVENTS
 
 for arg in sys.argv[1:]:
     try:
-        importlib.import_module(arg)
+        if arg[-3:] == ".py":
+            importlib.import_module(arg[:-3])
+        else:
+            importlib.import_module(arg)
     except ModuleNotFoundError:
         exec(open(arg).read())
 
