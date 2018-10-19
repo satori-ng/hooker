@@ -1,10 +1,8 @@
 """The HookList class"""
-import logging
 import inspect
 from collections import Iterable
 
-
-logger = logging.getLogger(__name__)
+from hooker.logger import logger
 
 
 class HookException(Exception):
@@ -29,6 +27,8 @@ class HookList(list):
                            for x in self._later])
             )
 
+        # Prepare the retvals, which contains the return values of all previous
+        # hooks for THIS event
         retval = {}
         if not kwargs:
             kwargs = {}
@@ -36,10 +36,14 @@ class HookList(list):
         for func in self:
             signature = inspect.getargspec(func)
             # Search the position of the positional argument "retvals"
-            position = tuple(x for x in range(len(signature.args)) if signature.args[x] == "retvals")
+            if "retvals" in kwargs.keys():
+                logger.warning("WTF man? Don't use 'retvals' argument, I got dibs on it (read the wiki fucker)")
+                position = tuple()
+            else:
+                position = tuple(x for x in range(len(signature.args)) if signature.args[x] == "retvals")
             nargs = list(args)
             if position:
-                # Put return values in
+                # Put return values in the found position
                 nargs.insert(position[0], retval)
 
             # Skip extension if it doens't accept the arguments passed
@@ -47,8 +51,7 @@ class HookList(list):
                 # Using deprecated getcallargs to be python2 compatible
                 inspect.getcallargs(func, *nargs, **kwargs)
             except TypeError:
-                print(signature)
-                logger.warning("Skipping %s" % func.__name__)
+                logger.warning("Skipping %s due to limited arguments" % func.__name__)
                 continue
 
             retval[func] = func(*nargs, **kwargs)

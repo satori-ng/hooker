@@ -20,6 +20,9 @@ class EventList():
         if isinstance(event, str):
             self._events[event] = HookList()
             self._help[event] = (help, getframeinfo(stack()[1][0]))
+
+            if not help:
+                logger.warning("Great, don't say anything about your hooks and wait for them to figure it out. I'll find you and I'll kill you")
         elif isinstance(event, Iterable):
             for name in event:
                 self.append(name)
