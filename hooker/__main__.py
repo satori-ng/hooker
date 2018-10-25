@@ -4,12 +4,13 @@ import sys
 from .api import EVENTS
 
 for arg in sys.argv[1:]:
+    importarg = arg.replace("/", ".").replace("\\", ".")
+    if importarg[-3:] == ".py":
+        importarg = importarg[:-3]
+
     try:
-        if arg[-3:] == ".py":
-            importlib.import_module(arg[:-3])
-        else:
-            importlib.import_module(arg)
-    except ModuleNotFoundError:
+        importlib.import_module(importarg)
+    except (ModuleNotFoundError, TypeError):
         exec(open(arg).read())
 
 for name in EVENTS._help:

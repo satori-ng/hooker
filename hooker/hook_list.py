@@ -1,6 +1,8 @@
 """The HookList class"""
+import importlib
 import inspect
-from collections import Iterable
+import os
+from collections import Iterable, OrderedDict
 
 from hooker.logger import logger
 
@@ -12,6 +14,7 @@ class HookException(Exception):
 
 class HookList(list):
     """Profesional grade list of hooks. Manages dependcy checking n' shit"""
+    _run = False
 
     def __init__(self, *args, **kwargs):
         # If an extension is loaded before all its dependencies are loaded, put
@@ -20,6 +23,21 @@ class HookList(list):
         super(HookList, self).__init__(*args, **kwargs)
 
     def __call__(self, *args, **kwargs):
+        if not self._run:
+            self._run = True
+            for script in os.getenv("HOOKER_SCRIPTS","").split(":"):
+                if not script:
+                    continue
+
+                importscript = script.replace("/", ".").replace("\\", ".")
+                if importscript[-3:] == ".py":
+                    importscript = importscript[:-3]
+
+                try:
+                    importlib.import_module(importscript)
+                except (ModuleNotFoundError, TypeError):
+                    exec(open(script).read())
+
         if self._later:
             raise HookException(
                 "Dependencies not met for: %s" %
@@ -29,22 +47,26 @@ class HookList(list):
 
         # Prepare the retvals, which contains the return values of all previous
         # hooks for THIS event
-        retval = {}
+        retval = OrderedDict()
         if not kwargs:
             kwargs = {}
 
         for func in self:
+            position = None
             signature = inspect.getargspec(func)
             # Search the position of the positional argument "retvals"
             if "retvals" in kwargs.keys():
                 logger.warning("WTF man? Don't use 'retvals' argument, I got dibs on it (read the wiki fucker)")
-                position = tuple()
             else:
-                position = tuple(x for x in range(len(signature.args)) if signature.args[x] == "retvals")
+                try:
+                    position = signature.args.index("retvals")
+                except ValueError:
+                    pass
+
             nargs = list(args)
             if position:
                 # Put return values in the found position
-                nargs.insert(position[0], retval)
+                nargs.insert(position, retval)
 
             # Skip extension if it doens't accept the arguments passed
             try:
