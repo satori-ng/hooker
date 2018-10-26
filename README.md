@@ -10,7 +10,7 @@ This is my attempt to reinvent the hooking wheel.
 I try to keep it simple for both providers and consumers.
 
 The whole idea is that there are events, created by either the guts of the app
-or an plugin itself on runtime.
+or a plugin itself on runtime.
 After that, the required plugins that actually implemnt hooks on the events
 should be imported.
 
@@ -77,8 +77,6 @@ def bar(argument_1, retvals):
 
 It's really easy to use the hooker. This is an example usage:
 
-### 
-
 `main.py`
 ```python
 import hooker
@@ -93,8 +91,6 @@ results1 = hooker.EVENTS["on_start"]()
 results2 = hooker.EVENTS["on_start"]("/tmp/path", 1234)
 ```
 
-You don't have to import all the plugins, as the user can use the `HOOKER_SCRIPTS` environment variable.
-
 `EVENTS.append` declares the hook name with string as first argument and help string as second.
 The help string will be shown when `python -m hooker` is invoked. PLEASE give some insight
 on what the hook does and where it is fired, as well as what argument is the hook called with.
@@ -104,5 +100,9 @@ Then to fire the hook, just `EVENTS[<hook>](<arguments>)`.
 As expected, the return value is an OrderedDict: `{<hook_function_pointer>: <return value>}`.
 So you know exactly the order that the hooks where fired and you can get
 info about the hook from the function pointer.
+
+You don't have to import all the plugins, as the user can use the `HOOKER_SCRIPTS` environment variable.
+
+# NOTE: Don't use `retvals` as argument when you're calling a hook. See `retvals_with_multi_deps.py`!!!
 
 Happy Hacking! :)
