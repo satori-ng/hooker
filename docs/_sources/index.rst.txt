@@ -7,14 +7,30 @@ Welcome to Hooker's documentation!
 ==================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
 
+   plugin_creators
+   project_authors
+   Reference <modules>
 
+Yellow! This is a simple project that makes the "hooking" plugin
+architecture a bit easier in python.
 
-Indices and tables
-==================
+Here, take a look:
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. code:: python
+
+   import hooker
+   # State your event
+   hooker.EVENTS.append("fire", help="This is called when the gun is fired")
+
+   # Hook your event
+   @hooker.hook("fire")
+   def cock():
+       print("-> Fire was shot")
+
+   print("Gun loaded")
+   print("Firing")
+   # Fire your hooked event
+   hooker.EVENTS["fire"]()

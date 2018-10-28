@@ -1,0 +1,255 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Project Authors &mdash; hooker 0.2.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="hooker" href="modules.html" />
+    <link rel="prev" title="Plugin Creators" href="plugin_creators.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> hooker
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Welcome to Hooker’s documentation!</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="plugin_creators.html">Plugin Creators</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Project Authors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html">hooker</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="plugin_creators.html">Plugin Creators</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Project Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">hooker</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">hooker</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Project Authors</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/project_authors.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="project-authors">
+<h1>Project Authors<a class="headerlink" href="#project-authors" title="Permalink to this headline">¶</a></h1>
+<p>First you got to declare your event like that:</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">hooker</span>
+<span class="n">hooker</span><span class="o">.</span><span class="n">EVENTS</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;on_start&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;This will be called on start&quot;</span><span class="p">)</span>
+<span class="n">hooker</span><span class="o">.</span><span class="n">EVENTS</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;with_open&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;This will be called after the file is opened&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><strong>Please</strong> include the <code class="docutils literal notranslate"><span class="pre">help</span></code> part, as it gives the help info for
+<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">hooker</span></code>. It will help your hook creators a lot. Describe
+<strong>when</strong> the event takes place and what <strong>arguments</strong> you pass to the
+hooks.</p>
+</div>
+<p>And then you can fire it whenever you like, like this:</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">results1</span> <span class="o">=</span> <span class="n">hooker</span><span class="o">.</span><span class="n">EVENTS</span><span class="p">[</span><span class="s2">&quot;on_start&quot;</span><span class="p">]()</span>
+<span class="n">results2</span> <span class="o">=</span> <span class="n">hooker</span><span class="o">.</span><span class="n">EVENTS</span><span class="p">[</span><span class="s2">&quot;with_open&quot;</span><span class="p">](</span><span class="s2">&quot;/tmp/path&quot;</span><span class="p">,</span> <span class="mi">1234</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The return value is an <a class="reference external" href="https://docs.python.org/3/library/collections.html#collections.OrderedDict">OrderedDict</a>:
+<code class="docutils literal notranslate"><span class="pre">{&lt;hook_function_pointer&gt;:</span> <span class="pre">&lt;return</span> <span class="pre">value&gt;}</span></code>, so that you know exactly
+the order that the hooks where fired and you can get info about the hook
+from the function pointer.</p>
+<p>You don’t have to import all the plugins, as the user can use the
+<code class="docutils literal notranslate"><span class="pre">HOOKER_SCRIPTS</span></code> environment variable.</p>
+<div class="admonition attention" id="note-don-t-use-retvals-as-argument-when-you-re-calling-a-hook-it-is-a-reserved-magic-variable">
+<p class="first admonition-title">Attention</p>
+<p class="last">NOTE: Don’t use <code class="docutils literal notranslate"><span class="pre">retvals</span></code> as argument when you’re calling a hook. It is a reserved magic variable!</p>
+</div>
+<p>Happy Hacking! :)</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="modules.html" class="btn btn-neutral float-right" title="hooker" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="plugin_creators.html" class="btn btn-neutral" title="Plugin Creators" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.2.3',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
