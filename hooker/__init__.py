@@ -1,5 +1,5 @@
 from .api import *
-from hook_list import HookException
+from .hook_list import HookException
 
 
 __version__ = '0.2.3'

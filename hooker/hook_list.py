@@ -4,8 +4,8 @@ import inspect
 import os
 from collections import Iterable, OrderedDict
 
-from hooker.logger import logger
-from hooker import load
+from .logger import logger
+# from .api import load
 
 
 class HookException(Exception):

@@ -1,4 +1,6 @@
-from hooker.event_list import EventList
+import importlib
+
+from .event_list import EventList
 
 EVENTS = EventList()
 

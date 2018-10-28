@@ -1,17 +1,9 @@
-import importlib
 import sys
 
-from .api import EVENTS
+from .api import EVENTS, load
 
 for arg in sys.argv[1:]:
-    importarg = arg.replace("/", ".").replace("\\", ".")
-    if importarg[-3:] == ".py":
-        importarg = importarg[:-3]
-
-    try:
-        importlib.import_module(importarg)
-    except (ModuleNotFoundError, TypeError):
-        exec(open(arg).read())
+    load(arg)
 
 for name in EVENTS._help:
     help, inspect = EVENTS._help[name]

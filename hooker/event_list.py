@@ -1,8 +1,8 @@
 from collections import Iterable
 from inspect import getframeinfo, stack
 
-from hooker.logger import logger
-from hooker.hook_list import HookList
+from .logger import logger
+from .hook_list import HookList
 
 
 class EventList():
