@@ -12,6 +12,13 @@ class HookException(Exception):
     pass
 
 
+class HOrderedDict(OrderedDict):
+    @property
+    def last(self):
+        key = next(reversed(self))
+        return (key, self[key])
+
+
 class HookList(list):
     """Profesional grade list of hooks. Manages dependcy checking n' shit"""
     _run = False
@@ -47,7 +54,7 @@ class HookList(list):
 
         # Prepare the retvals, which contains the return values of all previous
         # hooks for THIS event
-        retval = OrderedDict()
+        retval = HOrderedDict()
         if not kwargs:
             kwargs = {}
 
