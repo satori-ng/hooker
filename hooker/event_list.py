@@ -5,32 +5,58 @@ from hooker.logger import logger
 from hooker.hook_list import HookList
 
 
-class EventException(Exception):
-    """An event threw up!"""
-    pass
-
-
 class EventList():
     """A list that holds all the events, each of which hold all hooks"""
     _events = {}
     _help = {}
 
     def append(self, event, help=""):
-        """Creates a new event. `event` may be iterable or string"""
+        """Creates a new event. `event` may be iterable or string
+
+        Args:
+            event (str): Name of event to declare
+
+        Kwrgs:
+            help (str): Help string for the event
+
+        Raises:
+            TypeError
+
+        **Please** describe the event and its calling arguments in the help
+        string.
+        """
         if isinstance(event, str):
             self._events[event] = HookList()
             self._help[event] = (help, getframeinfo(stack()[1][0]))
 
             if not help:
-                logger.warning("Great, don't say anything about your hooks and wait for them to figure it out. I'll find you and I'll kill you")
+                logger.warning("Great, don't say anything about your hooks and \
+                wait for plugin creators to figure it out.")
         elif isinstance(event, Iterable):
+            # Depricated. It does not give the ability to give help string
+            # TODO: Remove this
             for name in event:
                 self.append(name)
         else:
-            raise EventException("De hell did you give me as an event name? O.o")
+            raise TypeError("Invalid event name!")
 
     def hook(self, function, event, dependencies):
-        """Tries to load the hook to the event"""
+        """Tries to load the hook to the event
+
+        Args:
+            function (func): Function that will be called when the event is called
+
+        Kwargs:
+            dependencies (str): String or Iterable with modules whose hooks should be called before this one
+
+        Raises:
+            :class:NameError
+
+        Note that the dependencies are module-wide, that means that if
+        `parent.foo` and `parent.bar` are both subscribed to `example` event
+        and `child` enumerates `parent` as dependcy, **both** `foo` and `bar`
+        must be called in order for the dependcy to get resolved.
+        """
         # Hooks all events (recursively)
         if event is None:
             for e in self._events.keys():
@@ -46,7 +72,7 @@ class EventList():
         # Hook a simple event
         event_list = self._events.get(event, None)
         if event_list is None:
-            logger.warning(
+            raise NameError(
                 "Invalid key provided '%s'. Valid options: %s"
                 % (event, ", ".join(self._events.keys()))
             )
@@ -55,5 +81,9 @@ class EventList():
         return event_list.hook(function, dependencies)
 
     def __getitem__(self, name):
-        """Get the HookList"""
+        """Get the :class:HookList
+
+        Args:
+            name (str): Name of event to get :class:HookList for
+        """
         return self._events[name]
