@@ -6,6 +6,8 @@ NOTE: Use me, use me haaaard...
 
 For documentation check the [wiki](https://github.com/satori-ng/hooker/wiki)
 
+Installation: `pip install hooker`
+
 ---
 
 This is my attempt to reinvent the hooking wheel.
