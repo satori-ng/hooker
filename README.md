@@ -4,7 +4,7 @@ I'm a hooker from Silvermoon City. Let me show you the Arcane way to Python
 
 NOTE: Use me, use me haaaard...
 
-For documentation check the [wiki](https://github.com/satori-ng/hooker/wiki)
+For documentation check the [wiki](https://satori-ng.github.io/hooker/)
 
 Installation: `pip install hooker`
 
