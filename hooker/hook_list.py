@@ -5,7 +5,7 @@ import os
 from collections import Iterable, OrderedDict
 
 from .logger import logger
-# from .api import load
+import hooker
 
 
 class HookException(Exception):
@@ -45,7 +45,7 @@ class HookList(list):
             self._run = True
             for script in os.getenv("HOOKER_SCRIPTS","").split(":"):
                 if script: # Check for empty string
-                    load(script)
+                    hooker.load(script)
 
         # If _later still has requirements to be satisfied, they are not found...
         if self._later:

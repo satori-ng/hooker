@@ -2,7 +2,7 @@ from .api import *
 from .hook_list import HookException
 
 
-__version__ = '0.3.0'
+__version__ = '0.3.1'
 __name__ = 'hooker'
 __desc__ = 'An arcane-powered python hooking library for sane humans'
 __email__ = 'satori_ng@email.com'
