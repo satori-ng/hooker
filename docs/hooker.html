@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>hooker package &mdash; hooker 0.2.3 documentation</title>
+  <title>hooker package &mdash; hooker 0.3.1 documentation</title>
   
 
   
@@ -26,8 +26,10 @@
 
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="hooker" href="modules.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -76,19 +78,26 @@
               
             
             
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">hooker package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-hooker.api">hooker.api module</a></li>
-<li><a class="reference internal" href="#module-hooker.event_list">hooker.event_list module</a></li>
-<li><a class="reference internal" href="#module-hooker.hook_list">hooker.hook_list module</a></li>
-<li><a class="reference internal" href="#module-hooker.logger">hooker.logger module</a></li>
-<li><a class="reference internal" href="#module-hooker">Module contents</a></li>
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="plugin_creators.html">Plugin Creators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_authors.html">Project Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example.html">Real World Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example.html#id1">Crypter</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">hooker package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-hooker.api">hooker.api module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-hooker.event_list">hooker.event_list module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-hooker.hook_list">hooker.hook_list module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-hooker.logger">hooker.logger module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-hooker">Module contents</a></li>
 </ul>
 </li>
 </ul>
-</div>
+</li>
+</ul>
+
             
           
         </div>
@@ -132,6 +141,8 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
+          <li><a href="modules.html">hooker</a> &raquo;</li>
+        
       <li>hooker package</li>
     
     
@@ -164,11 +175,9 @@
 <dd><p>Hooking decorator. Just <cite>&#64;hook(event, dependencies)</cite> on your function</p>
 <dl class="docutils">
 <dt>Kwargs:</dt>
-<dd><p class="first">event (str): String or Iterable with events to hook
-dependencies (str): String or Iterable with modules whose hooks have</p>
-<blockquote class="last">
-<div>to be called before this one for <strong>this</strong> event</div></blockquote>
-</dd>
+<dd>event (str): String or Iterable with events to hook
+dependencies (str): String or Iterable with modules whose hooks have
+to be called before this one for <strong>this</strong> event</dd>
 </dl>
 <p>Wraps <code class="xref py py-func docutils literal notranslate"><span class="pre">EventList.hook()</span></code></p>
 </dd></dl>
@@ -220,7 +229,7 @@ string.</p>
 <dt>Kwargs:</dt>
 <dd>dependencies (str): String or Iterable with modules whose hooks should be called before this one</dd>
 <dt>Raises:</dt>
-<dd>:class:NameError</dd>
+<dd>NameError</dd>
 </dl>
 <p>Note that the dependencies are module-wide, that means that if
 <cite>parent.foo</cite> and <cite>parent.bar</cite> are both subscribed to <cite>example</cite> event
@@ -309,6 +318,13 @@ must be called in order for the dependcy to get resolved.</p>
           </div>
           <footer>
   
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="modules.html" class="btn btn-neutral" title="hooker" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
   <hr/>
 
@@ -336,7 +352,7 @@ must be called in order for the dependcy to get resolved.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.2.3',
+            VERSION:'0.3.1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

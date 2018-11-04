@@ -50,7 +50,7 @@ class EventList():
             dependencies (str): String or Iterable with modules whose hooks should be called before this one
 
         Raises:
-            :class:NameError
+            NameError
 
         Note that the dependencies are module-wide, that means that if
         `parent.foo` and `parent.bar` are both subscribed to `example` event
@@ -81,9 +81,4 @@ class EventList():
         return event_list.hook(function, dependencies)
 
     def __getitem__(self, name):
-        """Get the :class:HookList
-
-        Args:
-            name (str): Name of event to get :class:HookList for
-        """
         return self._events[name]

@@ -11,7 +11,7 @@ def hook(event=None, dependencies=None):
     Kwargs:
         event (str): String or Iterable with events to hook
         dependencies (str): String or Iterable with modules whose hooks have
-            to be called before this one for **this** event
+        to be called before this one for **this** event
 
     Wraps :func:`EventList.hook`
     """
