@@ -3,6 +3,7 @@ import importlib
 from .event_list import EventList
 
 EVENTS = EventList()
+WATERFALL = EventList(is_waterfall=True)
 
 
 def hook(event=None, dependencies=None):

@@ -24,8 +24,9 @@ class HookList(list):
     """Profesional grade list of hooks. Manages dependcy checking n' shit"""
     _run = False
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, is_waterfall=False, **kwargs):
         self._later = []
+        self.is_waterfall = is_waterfall
         super(HookList, self).__init__(*args, **kwargs)
 
     def __call__(self, *args, **kwargs):
@@ -54,6 +55,13 @@ class HookList(list):
                 ", ".join([x.__name__ + ":" + x.__module__
                            for x in self._later])
             )
+
+        if self.is_waterfall:
+            for func in self:
+                args = func(*args)
+                # if not isinstance(args, Iterable) or isinstance(args, str):
+                args = (args,)
+            return args
 
         # Prepare the retvals, which contains the return values of all previous
         # hooks for THIS event

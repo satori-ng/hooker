@@ -10,6 +10,9 @@ class EventList():
     _events = {}
     _help = {}
 
+    def __init__(self, is_waterfall=False):
+        self.is_waterfall = is_waterfall
+
     def append(self, event, help=""):
         """Creates a new event. `event` may be iterable or string
 
@@ -26,7 +29,7 @@ class EventList():
         string.
         """
         if isinstance(event, str):
-            self._events[event] = HookList()
+            self._events[event] = HookList(is_waterfall=self.is_waterfall)
             self._help[event] = (help, getframeinfo(stack()[1][0]))
 
             if not help:
