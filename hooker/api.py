@@ -19,7 +19,6 @@ def hook(event=None, dependencies=None):
 
     def wrapper(func):
         """I'm a simple wrapper that manages event hooking"""
-        func.__deps__ = dependencies
         EVENTS.hook(func, event, dependencies)
         return func
     return wrapper

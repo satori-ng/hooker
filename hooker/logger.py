@@ -1,11 +1,11 @@
 import logging
 try:
-    from configparser import SafeConfigParser, NoSectionError
+    from ConfigParser import ConfigParser, NoSectionError
 except ImportError:
-    from ConfigParser import SafeConfigParser, NoSectionError
+    from configparser import SafeConfigParser as ConfigParser, NoSectionError
 
 
-config = SafeConfigParser()
+config = ConfigParser()
 config.read('config.ini')
 try:
     LOG_LEVEL = config.get('hooker', 'log_lvl')

@@ -60,7 +60,8 @@ class HookList(list):
             for func in self:
                 args = func(*args)
                 # if not isinstance(args, Iterable) or isinstance(args, str):
-                args = (args,)
+                # args = (args,)
+
             return args
 
         # Prepare the __retvals__, which contains the return values of all previous
@@ -76,7 +77,7 @@ class HookList(list):
 
             # Search the position of the positional argument "__retvals__"
             if "__retvals__" in kwargs.keys():
-                logger.warning("WTF man? Don't use '__retvals__' argument, it is used internally! \
+                raise HookException("WTF man? Don't use '__retvals__' argument, it is used internally! \
                                (read the wiki fucker)")
             else:
                 try:
@@ -122,7 +123,7 @@ class HookList(list):
         if isinstance(name, Iterable):
             return set(name).issubset([x.__module__ for x in self])
 
-        return False
+        raise TypeError("Invalid list of dependencies provided!")
 
     def hook(self, function, dependencies=None):
         """Tries to load a hook
@@ -141,12 +142,14 @@ class HookList(list):
         and `child` enumerates `parent` as dependcy, **both** `foo` and `bar`
         must be called in order for the dependcy to get resolved.
         """
-        if not isinstance(dependencies, (Iterable, type(None), str)):
-            raise TypeError("Invalid list of dependencies provided!")
-
         # Tag the function with its dependencies
         if not hasattr(function, "__deps__"):
             function.__deps__ = dependencies
+
+        # if hasattr(function.__deps__, "__add__"):
+        #     function.__deps__ += dependencies
+        # else:
+        function.__deps__ = dependencies
 
         # If a module is loaded before all its dependencies are loaded, put
         # it in _later list and don't load yet
