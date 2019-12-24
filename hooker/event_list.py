@@ -33,7 +33,7 @@ class EventList():
             self._help[event] = (help, getframeinfo(stack()[1][0]))
 
             if not help:
-                logger.warning("Great, don't say anything about your hooks and \
+                logger.debug("Great, don't say anything about your hooks and \
                 wait for plugin creators to figure it out.")
         elif isinstance(event, Iterable):
             # Depricated. It does not give the ability to give help string
@@ -75,8 +75,8 @@ class EventList():
         # Hook a simple event
         event_list = self._events.get(event, None)
         if event_list is None:
-            raise NameError(
-                "Invalid key provided '%s'. Valid options: %s"
+            logger.debug(
+                "Invalid key provided '%s'. Valid options: %s. Ignoring!"
                 % (event, ", ".join(self._events.keys()))
             )
             return
