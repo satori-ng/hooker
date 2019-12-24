@@ -30,10 +30,10 @@ from the function pointer.
 You don't have to import all the plugins, as the user can use the
 ``HOOKER_SCRIPTS`` environment variable.
 
-.. _note:-don't-use-retvals-as-argument-when-you're-calling-a-hook.-it-is-a-reserved-magic-variable!:
+.. _note:-don't-use-__retvals__-as-argument-when-you're-calling-a-hook.-it-is-a-reserved-magic-variable!:
 
 .. attention::
-   NOTE: Don't use ``retvals`` as argument when you're calling a hook. It is a reserved magic variable!
+   NOTE: Don't use ``__retvals__`` as argument when you're calling a hook. It is a reserved magic variable!
 
 Happy Hacking! :)
 

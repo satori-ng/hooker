@@ -36,7 +36,7 @@ class HookList(list):
         Raises:
             :class:HookException
 
-        Please do **not** use an arg/kwarg named `retvals`, it is reserved
+        Please do **not** use an arg/kwarg named `__retvals__`, it is reserved
         for the return values of previously executed hooks in current event,
         passed in each hook function, if it exists in its signature.
         """
@@ -63,7 +63,7 @@ class HookList(list):
                 args = (args,)
             return args
 
-        # Prepare the retvals, which contains the return values of all previous
+        # Prepare the __retvals__, which contains the return values of all previous
         # hooks for THIS event
         retval = HOrderedDict()
         if not kwargs:
@@ -74,12 +74,13 @@ class HookList(list):
             position = None
             signature = inspect.getargspec(func)
 
-            # Search the position of the positional argument "retvals"
-            if "retvals" in kwargs.keys():
-                logger.warning("WTF man? Don't use 'retvals' argument, I got dibs on it (read the wiki fucker)")
+            # Search the position of the positional argument "__retvals__"
+            if "__retvals__" in kwargs.keys():
+                logger.warning("WTF man? Don't use '__retvals__' argument, it is used internally! \
+                               (read the wiki fucker)")
             else:
                 try:
-                    position = signature.args.index("retvals")
+                    position = signature.args.index("__retvals__")
                 except ValueError:
                     pass
 

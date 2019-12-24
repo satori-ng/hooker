@@ -70,14 +70,14 @@ the module was imported.
 The one that uses previous hooks
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This hook uses the magic argument ``retvals``. This argument contains
+This hook uses the magic argument ``__retvals__``. This argument contains
 all the return values of previously executed hooks in an `OrderedDict`_:
 ``{<function_pointer>: <return value>}``
 
 It also uses a list of dependencies. If you want to hook multiple
 events, you can use a list of event names as well.
 
-``retvals_with_multi_deps.py``
+``__retvals___with_multi_deps.py``
 
 .. code:: python
 
@@ -85,8 +85,8 @@ events, you can use a list of event names as well.
 
    # Won't run! See note below!
    @hooker.hook(["on_start", "with_open"], ["simple_hook", "simple_hook_with_dependency"])
-   def baz(argument_1, retvals):
-       print(retvals)
+   def baz(argument_1, __retvals__):
+       print(__retvals__)
        print("I will throw HookException :(")
        return "asdf!"
 
@@ -98,7 +98,7 @@ must hook both ``on_start`` and ``with_open``, which is not the case.
 
 To work around that, you can do the following:
 
-``retvals_with_multi_deps.py``
+``__retvals___with_multi_deps.py``
 
 .. code:: python
 
@@ -107,8 +107,8 @@ To work around that, you can do the following:
    # This will run happily
    @hooker.hook("on_start", ["simple_hook", "simple_hook_with_dependency"])
    @hooker.hook("with_open")
-   def baz(argument_1, retvals):
-       print(retvals)
+   def baz(argument_1, __retvals__):
+       print(__retvals__)
        print("I'll be called after simple_hook and simple_hook_with_dependency on on_start")
        print("But I'll be called on with_open too!")
        return "asdf!"
