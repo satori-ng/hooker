@@ -24,4 +24,4 @@ jobs:
       env:
         ACTIONS_DEPLOY_KEY: ${{secrets.GITHUB_TOKEN}}
         PUBLISH_BRANCH: gh-pages
-        PUBLISH_DIR: ./_build
+        PUBLISH_DIR: ./docs/_build
