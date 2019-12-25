@@ -1,4 +1,4 @@
-name: CI
+name: Build GitHub Pages docs with Sphinx
 
 on:
   push:
