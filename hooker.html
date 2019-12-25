@@ -1,0 +1,362 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hooker package &mdash; hooker 0.4.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="hooker" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> hooker
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="plugin_creators.html">Plugin Creators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_authors.html">Project Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example.html">Real World Example</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">hooker package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-hooker.api">hooker.api module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-hooker.event_list">hooker.event_list module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-hooker.hook_list">hooker.hook_list module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-hooker.logger">hooker.logger module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-hooker">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">hooker</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="modules.html">hooker</a> &raquo;</li>
+        
+      <li>hooker package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/hooker.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="hooker-package">
+<h1>hooker package<a class="headerlink" href="#hooker-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-hooker.api">
+<span id="hooker-api-module"></span><h2>hooker.api module<a class="headerlink" href="#module-hooker.api" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="hooker.api.hook">
+<code class="sig-prename descclassname">hooker.api.</code><code class="sig-name descname">hook</code><span class="sig-paren">(</span><em class="sig-param">event=None</em>, <em class="sig-param">dependencies=None</em><span class="sig-paren">)</span><a class="headerlink" href="#hooker.api.hook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hooking decorator. Just <cite>&#64;hook(event, dependencies)</cite> on your function</p>
+<dl class="simple">
+<dt>Kwargs:</dt><dd><p>event (str): String or Iterable with events to hook
+dependencies (str): String or Iterable with modules whose hooks have
+to be called before this one for <strong>this</strong> event</p>
+</dd>
+</dl>
+<p>Wraps <code class="xref py py-func docutils literal notranslate"><span class="pre">EventList.hook()</span></code></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hooker.api.load">
+<code class="sig-prename descclassname">hooker.api.</code><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param">path</em><span class="sig-paren">)</span><a class="headerlink" href="#hooker.api.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function that tries to load a filepath (or python module notation)
+as a python module and on failure <cite>exec</cite> it.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>path (str): Path or module to load</p>
+</dd>
+</dl>
+<p>The function tries to import <cite>example.module</cite> when either <cite>example.module</cite>,
+<cite>example/module</cite> or <cite>example/module.py</cite> is given.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-hooker.event_list">
+<span id="hooker-event-list-module"></span><h2>hooker.event_list module<a class="headerlink" href="#module-hooker.event_list" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="hooker.event_list.EventList">
+<em class="property">class </em><code class="sig-prename descclassname">hooker.event_list.</code><code class="sig-name descname">EventList</code><span class="sig-paren">(</span><em class="sig-param">is_waterfall=False</em><span class="sig-paren">)</span><a class="headerlink" href="#hooker.event_list.EventList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A list that holds all the events, each of which hold all hooks</p>
+<dl class="method">
+<dt id="hooker.event_list.EventList.append">
+<code class="sig-name descname">append</code><span class="sig-paren">(</span><em class="sig-param">event</em>, <em class="sig-param">help=''</em><span class="sig-paren">)</span><a class="headerlink" href="#hooker.event_list.EventList.append" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new event. <cite>event</cite> may be iterable or string</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>event (str): Name of event to declare</p>
+</dd>
+<dt>Kwrgs:</dt><dd><p>help (str): Help string for the event</p>
+</dd>
+<dt>Raises:</dt><dd><p>TypeError</p>
+</dd>
+</dl>
+<p><strong>Please</strong> describe the event and its calling arguments in the help
+string.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hooker.event_list.EventList.hook">
+<code class="sig-name descname">hook</code><span class="sig-paren">(</span><em class="sig-param">function</em>, <em class="sig-param">event</em>, <em class="sig-param">dependencies</em><span class="sig-paren">)</span><a class="headerlink" href="#hooker.event_list.EventList.hook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tries to load the hook to the event</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>function (func): Function that will be called when the event is called</p>
+</dd>
+<dt>Kwargs:</dt><dd><p>dependencies (str): String or Iterable with modules whose hooks should be called before this one</p>
+</dd>
+<dt>Raises:</dt><dd><p>NameError</p>
+</dd>
+</dl>
+<p>Note that the dependencies are module-wide, that means that if
+<cite>parent.foo</cite> and <cite>parent.bar</cite> are both subscribed to <cite>example</cite> event
+and <cite>child</cite> enumerates <cite>parent</cite> as dependcy, <strong>both</strong> <cite>foo</cite> and <cite>bar</cite>
+must be called in order for the dependcy to get resolved.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-hooker.hook_list">
+<span id="hooker-hook-list-module"></span><h2>hooker.hook_list module<a class="headerlink" href="#module-hooker.hook_list" title="Permalink to this headline">¶</a></h2>
+<p>The HookList class</p>
+<dl class="class">
+<dt id="hooker.hook_list.HOrderedDict">
+<em class="property">class </em><code class="sig-prename descclassname">hooker.hook_list.</code><code class="sig-name descname">HOrderedDict</code><a class="headerlink" href="#hooker.hook_list.HOrderedDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">collections.OrderedDict</span></code></p>
+<dl class="method">
+<dt id="hooker.hook_list.HOrderedDict.last">
+<em class="property">property </em><code class="sig-name descname">last</code><a class="headerlink" href="#hooker.hook_list.HOrderedDict.last" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="hooker.hook_list.HookException">
+<em class="property">exception </em><code class="sig-prename descclassname">hooker.hook_list.</code><code class="sig-name descname">HookException</code><a class="headerlink" href="#hooker.hook_list.HookException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>A hook threw up!</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="hooker.hook_list.HookList">
+<em class="property">class </em><code class="sig-prename descclassname">hooker.hook_list.</code><code class="sig-name descname">HookList</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">is_waterfall=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#hooker.hook_list.HookList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></p>
+<p>Profesional grade list of hooks. Manages dependcy checking n’ shit</p>
+<dl class="method">
+<dt id="hooker.hook_list.HookList.hook">
+<code class="sig-name descname">hook</code><span class="sig-paren">(</span><em class="sig-param">function</em>, <em class="sig-param">dependencies=None</em><span class="sig-paren">)</span><a class="headerlink" href="#hooker.hook_list.HookList.hook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tries to load a hook</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>function (func): Function that will be called when the event is called</p>
+</dd>
+<dt>Kwargs:</dt><dd><p>dependencies (str): String or Iterable with modules whose hooks should be called before this one</p>
+</dd>
+<dt>Raises:</dt><dd><p>:class:TypeError</p>
+</dd>
+</dl>
+<p>Note that the dependencies are module-wide, that means that if
+<cite>parent.foo</cite> and <cite>parent.bar</cite> are both subscribed to <cite>example</cite> event
+and <cite>child</cite> enumerates <cite>parent</cite> as dependcy, <strong>both</strong> <cite>foo</cite> and <cite>bar</cite>
+must be called in order for the dependcy to get resolved.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hooker.hook_list.HookList.isloaded">
+<code class="sig-name descname">isloaded</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="headerlink" href="#hooker.hook_list.HookList.isloaded" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if given hook module has been loaded</p>
+<dl>
+<dt>Args:</dt><dd><p>name (str): The name of the module to check</p>
+</dd>
+<dt>Returns:</dt><dd><p>bool.  The return code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kc">True</span> <span class="o">--</span> <span class="n">Loaded</span>
+<span class="kc">False</span> <span class="o">--</span> <span class="n">Not</span> <span class="n">Loaded</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-hooker.logger">
+<span id="hooker-logger-module"></span><h2>hooker.logger module<a class="headerlink" href="#module-hooker.logger" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-hooker">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-hooker" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="modules.html" class="btn btn-neutral float-left" title="hooker" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
