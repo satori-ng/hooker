@@ -24,7 +24,7 @@ class HookList(list):
     """Profesional grade list of hooks. Manages dependcy checking n' shit"""
     _run = False
 
-    def __init__(self, *args, is_waterfall=False, **kwargs):
+    def __init__(self, is_waterfall=False, *args, **kwargs):
         self._later = []
         self.is_waterfall = is_waterfall
         super(HookList, self).__init__(*args, **kwargs)
