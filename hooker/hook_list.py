@@ -51,7 +51,7 @@ class HookList(list):
         # If _later still has requirements to be satisfied, they are not found...
         if self._later:
             raise HookException(
-                "Dependencies not met for: %s" %
+                "Dependencies not met for: '%s'" %
                 ", ".join([x.__name__ + ":" + x.__module__
                            for x in self._later])
             )
@@ -59,8 +59,6 @@ class HookList(list):
         if self.is_waterfall:
             for func in self:
                 args = func(*args)
-                # if not isinstance(args, Iterable) or isinstance(args, str):
-                # args = (args,)
 
             return args
 
@@ -160,6 +158,8 @@ class HookList(list):
 
         # After each module load, retry to resolve dependencies
         for ext in self._later:
+            print(ext)
+            print([x.__module__ for x in self])
             if self.isloaded(ext.__deps__):
                 self._later.remove(ext)
                 self.hook(ext)

@@ -5,6 +5,9 @@ from .event_list import EventList
 EVENTS = EventList()
 WATERFALL = EventList(is_waterfall=True)
 
+if "ModuleNotFoundError" not in globals():
+    ModuleNotFoundError = NameError
+
 
 def hook(event=None, dependencies=None):
     """Hooking decorator. Just `@hook(event, dependencies)` on your function

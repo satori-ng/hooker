@@ -82,12 +82,14 @@ class MyTestCase(unittest.TestCase):
         hooker.EVENTS.append(["depends1", "depends2"])
 
         # Listens to all events
-        import wildcard1
+        @hooker.hook()
+        def wildcard1():
+            return 1
 
         # Listens to both depends1 and depends2 events.
         # Has 2 dependencies: wildcard1 and wildcard2
         # Dependencies are checked on runtime, not on definition
-        @hooker.hook(["depends1", "depends2"], ["wildcard1", "wildcard2"])
+        @hooker.hook(["depends1", "depends2"], ["tests.test_functional", "wildcard2"])
         def depends():
             return True
 
@@ -103,7 +105,7 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(len(results2), 3)
         self.assertEqual(results2.last[1], True)
 
-        @hooker.hook(["depends1", "depends2"], "wildcard1")
+        @hooker.hook(["depends1", "depends2"], "tests.test_functional")
         def depends():
             return True
 
