@@ -9,7 +9,7 @@ config = ConfigParser()
 config.read('config.ini')
 try:
     LOG_LEVEL = config.get('hooker', 'log_lvl')
-    LOG_LEVEL = getattr(logging, LOG_LEVEL, logging.ERROR)
+    LOG_LEVEL = getattr(logging, LOG_LEVEL, logging.WARNING)
 except NoSectionError:
     LOG_LEVEL = logging.WARNING
 
