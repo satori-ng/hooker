@@ -16,6 +16,7 @@ jobs:
     - name: Sphinx Build
       uses: ammaraskar/sphinx-action@0.3
       with:
+        docs-folder: "docs/"
         repo-token: ${{secrets.GITHUB_TOKEN}}
         build-command: "sphinx-build -b html . _build"
     - name: Deploy to gh-pages
