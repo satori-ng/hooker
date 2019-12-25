@@ -1,12 +1,16 @@
-from pypandoc import convert
 from setuptools import setup
 
 import hooker
 
 
-def read_md(name):
-    # Hack to pass the "rst_lint.py" - PyPI
-    return convert(name, "rst").replace("~", "^")
+try:
+    from pypandoc import convert
+    def read_md(name):
+        # Hack to pass the "rst_lint.py" - PyPI
+        return convert(name, "rst").replace("~", "^")
+except ImportError:
+    def read_md(name):
+        return open(name, "r").read()
 
 
 try:
