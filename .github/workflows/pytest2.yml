@@ -1,6 +1,10 @@
 name: Execute tests with pytest (Python 2)
 
-on: [push]
+on:
+  push:
+    branches:
+      - develop
+      - master
 
 jobs:
   build:
