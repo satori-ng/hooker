@@ -1,4 +1,4 @@
-name: Python application
+name: Execute tests with pytest (Python 3)
 
 on: [push]
 
