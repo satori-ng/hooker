@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - develop
+      - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Sphinx Build
+      uses: ammaraskar/sphinx-action@0.3
+      with:
+        repo-token: ${{secrets.GITHUB_TOKEN}}
+        build-command: "sphinx-build -b html . _build"
+    - name: Deploy to gh-pages
+      uses: peaceiris/actions-gh-pages@v2.5.0
+      env:
+        ACTIONS_DEPLOY_KEY: ${{secrets.GITHUB_TOKEN}}
+        PUBLISH_BRANCH: gh-pages
+        PUBLISH_DIR: ./_build
