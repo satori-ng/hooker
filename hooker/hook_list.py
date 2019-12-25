@@ -2,7 +2,18 @@
 import importlib
 import inspect
 import os
-from collections import Iterable, OrderedDict
+
+try:
+    from inspect import getfullargspec
+except ImportError:
+    from inspect import getargspec as getfullargspec
+
+try:
+    from collections.abc import Iterable
+except ImportError:
+    # Python 2
+    from collections import Iterable
+from collections import OrderedDict
 
 from .logger import logger
 import hooker
@@ -71,7 +82,7 @@ class HookList(list):
         # Now call the hooks
         for func in self:
             position = None
-            signature = inspect.getargspec(func)
+            signature = getfullargspec(func)
 
             # Search the position of the positional argument "__retvals__"
             if "__retvals__" in kwargs.keys():
