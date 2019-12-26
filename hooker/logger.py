@@ -1,8 +1,6 @@
 import logging
-try:
-    from configparser import ConfigParser, NoSectionError
-except ImportError:
-    from configparser import SafeConfigParser as ConfigParser, NoSectionError
+
+from configparser import ConfigParser, NoSectionError
 
 
 config = ConfigParser()

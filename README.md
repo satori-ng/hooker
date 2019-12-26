@@ -27,7 +27,7 @@ Terminology:
 - `Hook`: A function that the `Plugin` creator wrote and is declared as hook using
 the `@hooker.hook` decorator. Contains at least one `Event` name (or none if its a wildcard
 hook) and optionally `Dependencies`
-- `Dependency`: A `Hook` can declared to be called after a plugin has run. `Dependency` can
+- `Dependency`: A `Hook` can declare to be called after a plugin has run. `Dependency` can
 include the name(s) of the python module(s) (**NOT** the function name) that include hooks
 that need to be run before the `Hook`
 

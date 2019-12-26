@@ -1,12 +1,16 @@
 import importlib
 
 from .event_list import EventList
+from .logger import logger
 
 EVENTS = EventList()
 WATERFALL = EventList(is_waterfall=True)
 
 if "ModuleNotFoundError" not in globals():
     ModuleNotFoundError = NameError
+
+if "FileNotFoundError" not in globals():
+    FileNotFoundError = IOError
 
 
 def hook(event=None, dependencies=None):
@@ -43,5 +47,8 @@ def load(path):
 
     try:
         importlib.import_module(importpath)
-    except (ModuleNotFoundError, TypeError):
-        exec(open(path).read())
+    except (ModuleNotFoundError, ImportError, TypeError):
+        try:
+            exec(open(path).read())
+        except FileNotFoundError:
+            logger.error("Module or file %s was not found! Ignoring...", importpath)

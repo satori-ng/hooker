@@ -7,4 +7,5 @@ for arg in sys.argv[1:]:
 
 for name in EVENTS._help:
     help, inspect = EVENTS._help[name]
-    print(f"{name}: {help} - {inspect.filename}:{inspect.lineno}")
+    print("%s: %s - %s:%s" %
+            (name, help, inspect.filename, inspect.lineno))

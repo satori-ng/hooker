@@ -30,7 +30,7 @@ def main():
     path_out = sys.argv[3]
 
     if encdec != "-e" and encdec != "-d":
-        print(f"Usage: {os.argv[0]} <-e|-d> <input_file> <output_file>")
+        print("Usage: %s <-e|-d> <input_file> <output_file>" % os.argv[0])
         print("\t-e\tEncrypts input and saves it to `file`")
         print("\t-d\tDecrypts input and saves it to `file`")
         exit(1)

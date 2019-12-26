@@ -94,12 +94,14 @@ class MyTestCase(unittest.TestCase):
             return True
 
         import os
-        os.environ["HOOKER_SCRIPTS"] = "wildcard2:wildcard2.py"
+        os.environ["HOOKER_SCRIPTS"] = "wildcard2:wildcard2.py:__i_do_not_exist__"
 
         # 3 hooks on 2 events
         results1 = hooker.EVENTS["depends1"]()
         self.assertEqual(len(results1), 3)
         self.assertEqual(results1.last[1], True)
+
+        os.environ["HOOKER_SCRIPTS"] = "wildcard2"
 
         results2 = hooker.EVENTS["depends2"]()
         self.assertEqual(len(results2), 3)

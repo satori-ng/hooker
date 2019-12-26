@@ -169,8 +169,6 @@ class HookList(list):
 
         # After each module load, retry to resolve dependencies
         for ext in self._later:
-            print(ext)
-            print([x.__module__ for x in self])
             if self.isloaded(ext.__deps__):
                 self._later.remove(ext)
                 self.hook(ext)
