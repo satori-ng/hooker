@@ -1,15 +1,6 @@
 import logging
 
-from configparser import ConfigParser, NoSectionError
-
-
-config = ConfigParser()
-config.read('config.ini')
-try:
-    LOG_LEVEL = config.get('hooker', 'log_lvl')
-    LOG_LEVEL = getattr(logging, LOG_LEVEL, logging.WARNING)
-except NoSectionError:
-    LOG_LEVEL = logging.WARNING
+LOG_LEVEL = logging.WARNING
 
 handler = logging.StreamHandler()
 
