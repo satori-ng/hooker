@@ -1,6 +1,6 @@
 try:
     from collections.abc import Iterable
-except ImportError:
+except ImportError:  # pragma: no py3 cover
     # Python 2
     from collections import Iterable
 

@@ -5,12 +5,13 @@ import os
 
 try:
     from inspect import getfullargspec
-except ImportError:
+except ImportError:  # pragma: no py3 cover
+    # Python 2
     from inspect import getargspec as getfullargspec
 
 try:
     from collections.abc import Iterable
-except ImportError:
+except ImportError:  # pragma: no py3 cover
     # Python 2
     from collections import Iterable
 from collections import OrderedDict

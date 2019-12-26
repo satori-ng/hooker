@@ -199,9 +199,7 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(results, ("world", 321)) # passed 2 reversing hooks!
 
     def test_main(self):
-        # TODO: How?
-        # import imp
-        # runpy = imp.load_source('hooker.__main__', 'hooker/__main__.py')
+        # TODO: How can I test hooker/__main__.py?
         pass
 
 
