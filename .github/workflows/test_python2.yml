@@ -1,4 +1,4 @@
-name: Execute tests with pytest (Python 2)
+name: py2 tests
 
 on:
   push:

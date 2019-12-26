@@ -1,3 +1,6 @@
+![](https://github.com/satori-ng/hooker/workflows/py2%20tests/badge.svg)
+![](https://github.com/satori-ng/hooker/workflows/py3%20tests/badge.svg)
+
 # Arcane Hooker
 
 I'm a hooker from Silvermoon City. Let me show you the Arcane way to Python

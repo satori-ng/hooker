@@ -1,4 +1,4 @@
-name: Execute tests with pytest (Python 3)
+name: py3 tests
 
 on:
   push:
