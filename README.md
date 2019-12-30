@@ -90,6 +90,11 @@ Hello World
 Goodbye World
 ```
 
+## Used in
+
+- [Satori](https://github.com/satori-ng) - The reason this project exists
+- [wormnest](https://github.com/operatorequals/wormnest) - A Web Server to hide stuff
+
 ---
 
 While the code is not a mess, I'm using a fair bit of python magic.
