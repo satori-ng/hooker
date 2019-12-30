@@ -1,3 +1,4 @@
+[![PyPI version](https://badge.fury.io/py/hooker.svg)](https://badge.fury.io/py/hooker)
 ![](https://github.com/satori-ng/hooker/workflows/py2%20tests/badge.svg)
 ![](https://github.com/satori-ng/hooker/workflows/py3%20tests/badge.svg)
 
