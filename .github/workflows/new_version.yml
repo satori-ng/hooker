@@ -28,7 +28,7 @@ jobs:
         branch: master
     - name: Install dependencies
       run: |
-        sudo apt-get install pandoc graphviz
+        sudo apt-get install pandoc graphviz xdot
         python -m pip install --upgrade pip
         pip install setuptools wheel twine pypandoc
     - name: Build and publish
