@@ -20,7 +20,7 @@ jobs:
     - name: Merge tag to master
       run: |
         git checkout master
-        git merge ${{ GITHUB_REF }}
+        git merge ${GITHUB_REF}
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
