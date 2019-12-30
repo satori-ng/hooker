@@ -12,26 +12,26 @@ Hooker is a hooking library that tries to simplify event firing and catching.
 It gives the ability to plugin creators to create plugins for many different
 parts, without having to break the logic in separate destinations, if it's not
 needed. The main features include:
-- Event declaration with help message support
-- `Waterfall` events that pass their output as arguments to next hook
-- Simple CLI tool to view all defined events of a project and its help messages
-- Functions decorators to hook on events
-- Dependency requirement for hooks (`a` hook has to be run before `b`)
-- `HOOKER_SCRIPTS` environmental variable allows to load additional scripts (aka plugins)
-- Wildcard hooks that are fired on all events
-- When a hook accepts the `__retvals__` argument, the returned values of the previous
+* Event declaration with help message support
+* `Waterfall` events that pass their output as arguments to next hook
+* Simple CLI tool to view all defined events of a project and its help messages
+* Functions decorators to hook on events
+* Dependency requirement for hooks (`a` hook has to be run before `b`)
+* `HOOKER_SCRIPTS` environmental variable allows to load additional scripts (aka plugins)
+* Wildcard hooks that are fired on all events
+* When a hook accepts the `__retvals__` argument, the returned values of the previous
 hooks (and the whole hook functions) will be passed into it as an [OrderedDict](https://docs.python.org/3/library/collections.html#collections.OrderedDict)
-- Python 2 compatibility - I'll try to keep that for as long as I can
+* Python 2 compatibility - I'll try to keep that for as long as I can
 
 Terminology:
-- `Project`: A project that uses Hooker
-- `Plugin`: A piece of code that adds functionality to a `Project` using `hooks`
-- `Event`: A name for something that `Plugins` can hook on. It is called on specific times
+* `Project`: A project that uses Hooker
+* `Plugin`: A piece of code that adds functionality to a `Project` using `hooks`
+* `Event`: A name for something that `Plugins` can hook on. It is called on specific times
 (that the `Project` author has programmed) so that `Plugins` can add functionality
-- `Hook`: A function that the `Plugin` creator wrote and is declared as hook using
+* `Hook`: A function that the `Plugin` creator wrote and is declared as hook using
 the `@hooker.hook` decorator. Contains at least one `Event` name (or none if its a wildcard
 hook) and optionally `Dependencies`
-- `Dependency`: A `Hook` can declare to be called after a plugin has run. `Dependency` can
+* `Dependency`: A `Hook` can declare to be called after a plugin has run. `Dependency` can
 include the name(s) of the python module(s) (**NOT** the function name) that include hooks
 that need to be run before the `Hook`
 
