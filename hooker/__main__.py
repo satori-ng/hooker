@@ -1,11 +1,14 @@
 import sys
 
-from .api import EVENTS, load
+from .api import EVENTS, WATERFALL, load
 
 for arg in sys.argv[1:]:
     load(arg)
 
-for name in EVENTS._help:
-    help, inspect = EVENTS._help[name]
+help_dicts = EVENTS._help
+help_dicts.update(WATERFALL._help)
+
+for name in help_dicts:
+    help_string, inspect = help_dicts[name]
     print("%s: %s - %s:%s" %
-            (name, help, inspect.filename, inspect.lineno))
+          (name, help_string, inspect.filename, inspect.lineno))
