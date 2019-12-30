@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Real World Example &mdash; hooker 0.4.4 documentation</title>
+  <title>Real World Example &mdash; hooker 0.4.6 documentation</title>
   
 
   
@@ -89,6 +89,10 @@
 <li class="toctree-l2"><a class="reference internal" href="#crypter">Crypter</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="#id1">Crypter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#as-this-is-an-example-nobody-would-use-for-real-world-scenarios-right">As this is an example, nobody would use for real world scenarios, right?</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">Reference</a></li>
 </ul>
 
@@ -158,9 +162,142 @@
 <h1>Real World Example<a class="headerlink" href="#real-world-example" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="crypter">
 <h2>Crypter<a class="headerlink" href="#crypter" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<div class="section" id="id1">
+<h1>Crypter<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>This is an example usage of hooker. It takes an input file,
+transforms it (encrypt/encode/decrypt/decode) and writes it
+to the output file.</p>
+<p>Fernet encryption: <code class="docutils literal notranslate"><span class="pre">HOOKER_SCRIPTS=fernet</span> <span class="pre">py</span> <span class="pre">crypter.py</span> <span class="pre">-e</span> <span class="pre">/tmp/test</span> <span class="pre">/tmp/test.enc</span></code>
+Fernet decryption: <code class="docutils literal notranslate"><span class="pre">HOOKER_SCRIPTS=fernet</span> <span class="pre">py</span> <span class="pre">crypter.py</span> <span class="pre">-d</span> <span class="pre">/tmp/test.enc</span> <span class="pre">/tmp/test.dec</span></code></p>
+<p>The main script (<code class="docutils literal notranslate"><span class="pre">crypter.py</span></code>) only reads, writes files and determines
+if encryption or decryption takes place (from the <code class="docutils literal notranslate"><span class="pre">-e/-d</span></code> flag). It fires
+events to do the rest. So if you call it without <code class="docutils literal notranslate"><span class="pre">HOOKER_SCRIPTS</span></code>, the two
+files will be identical.</p>
+<p>You can try <code class="docutils literal notranslate"><span class="pre">HOOKER_SCRIPTS=reverse</span></code>, which reverses its input.</p>
+<p>As an excercise, you can hook the <code class="docutils literal notranslate"><span class="pre">pre_open_out</span></code> and <code class="docutils literal notranslate"><span class="pre">pre_open_in</span></code> events to make
+the script read/write all the files in a hidden directory.</p>
+<p>You can see all the events and its description by calling:
+<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">hooker</span> <span class="pre">crypter.py</span></code></p>
+<div class="section" id="as-this-is-an-example-nobody-would-use-for-real-world-scenarios-right">
+<h2>As this is an example, nobody would use for real world scenarios, right?<a class="headerlink" href="#as-this-is-an-example-nobody-would-use-for-real-world-scenarios-right" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">crypter.py</span></code></p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">from</span> <span class="nn">hooker</span> <span class="kn">import</span> <span class="n">EVENTS</span><span class="p">,</span> <span class="n">hook</span>
+
+<span class="c1"># Declare the events</span>
+<span class="n">EVENTS</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;pre_open_in&quot;</span><span class="p">,</span> <span class="s2">&quot;Input file will open. Arguments: path&lt;str&gt;. Return: path&lt;str&gt;&quot;</span><span class="p">)</span>
+<span class="n">EVENTS</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;pre_open_out&quot;</span><span class="p">,</span> <span class="s2">&quot;Output file will open. Arguments: path&lt;str&gt;. Return: path&lt;str&gt;&quot;</span><span class="p">)</span>
+<span class="n">EVENTS</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;encrypt&quot;</span><span class="p">,</span> <span class="s2">&quot;Encrypt data. Arguments: data&lt;bytearray&gt;. Return: data&lt;str&gt;&quot;</span><span class="p">)</span>
+<span class="n">EVENTS</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;decrypt&quot;</span><span class="p">,</span> <span class="s2">&quot;Decrypt data. Arguments: data&lt;bytearray&gt;. Return: data&lt;str&gt;&quot;</span><span class="p">)</span>
+
+<span class="nd">@hook</span><span class="p">(</span><span class="s2">&quot;pre_open_in&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">pre_open_in</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">path</span>
+
+<span class="nd">@hook</span><span class="p">(</span><span class="s2">&quot;pre_open_out&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">pre_open_out</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">path</span>
+
+<span class="nd">@hook</span><span class="p">(</span><span class="s2">&quot;encrypt&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">data</span>
+
+<span class="nd">@hook</span><span class="p">(</span><span class="s2">&quot;decrypt&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">decrypt</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">data</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">encdec</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">path_in</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">path_out</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">encdec</span> <span class="o">!=</span> <span class="s2">&quot;-e&quot;</span> <span class="ow">and</span> <span class="n">encdec</span> <span class="o">!=</span> <span class="s2">&quot;-d&quot;</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Usage: </span><span class="si">%s</span><span class="s2"> &lt;-e|-d&gt; &lt;input_file&gt; &lt;output_file&gt;&quot;</span> <span class="o">%</span> <span class="n">os</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">-e</span><span class="se">\t</span><span class="s2">Encrypts input and saves it to `file`&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">-d</span><span class="se">\t</span><span class="s2">Decrypts input and saves it to `file`&quot;</span><span class="p">)</span>
+        <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Fire the pre_open hook to do path transformations</span>
+    <span class="n">pre_in_results</span> <span class="o">=</span> <span class="n">EVENTS</span><span class="p">[</span><span class="s2">&quot;pre_open_in&quot;</span><span class="p">](</span><span class="n">path_in</span><span class="p">)</span>
+    <span class="c1"># Get the return value of the last hook</span>
+    <span class="n">pre_in</span> <span class="o">=</span> <span class="n">pre_in_results</span><span class="o">.</span><span class="n">last</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pre_in</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ind</span><span class="p">:</span>
+        <span class="n">pre_out_results</span> <span class="o">=</span> <span class="n">EVENTS</span><span class="p">[</span><span class="s2">&quot;pre_open_out&quot;</span><span class="p">](</span><span class="n">path_out</span><span class="p">)</span>
+        <span class="n">pre_out</span> <span class="o">=</span> <span class="n">pre_out_results</span><span class="o">.</span><span class="n">last</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">bdatain</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="n">ind</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pre_out</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outd</span><span class="p">:</span>
+            <span class="c1"># Fire the en/decrypt hook to do data transformations</span>
+            <span class="k">if</span> <span class="n">encdec</span> <span class="o">==</span> <span class="s2">&quot;-e&quot;</span><span class="p">:</span>
+                <span class="n">dataout_results</span> <span class="o">=</span> <span class="n">EVENTS</span><span class="p">[</span><span class="s2">&quot;encrypt&quot;</span><span class="p">](</span><span class="n">bdatain</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">encdec</span> <span class="o">==</span> <span class="s2">&quot;-d&quot;</span><span class="p">:</span>
+                <span class="n">dataout_results</span> <span class="o">=</span> <span class="n">EVENTS</span><span class="p">[</span><span class="s2">&quot;decrypt&quot;</span><span class="p">](</span><span class="n">bdatain</span><span class="p">)</span>
+
+            <span class="n">dataout</span> <span class="o">=</span> <span class="n">dataout_results</span><span class="o">.</span><span class="n">last</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">outd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dataout</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
 <p><code class="docutils literal notranslate"><span class="pre">reverse.py</span></code></p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hooker</span> <span class="kn">import</span> <span class="n">hook</span>
+
+<span class="nd">@hook</span><span class="p">([</span><span class="s2">&quot;encrypt&quot;</span><span class="p">,</span> <span class="s2">&quot;decrypt&quot;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">pre_open</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">data</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
 <p><code class="docutils literal notranslate"><span class="pre">fernet.py</span></code></p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">from</span> <span class="nn">getpass</span> <span class="kn">import</span> <span class="n">getpass</span>
+
+<span class="kn">from</span> <span class="nn">cryptography.fernet</span> <span class="kn">import</span> <span class="n">Fernet</span>
+<span class="kn">from</span> <span class="nn">cryptography.hazmat.backends</span> <span class="kn">import</span> <span class="n">default_backend</span>
+<span class="kn">from</span> <span class="nn">cryptography.hazmat.primitives</span> <span class="kn">import</span> <span class="n">hashes</span>
+<span class="kn">from</span> <span class="nn">cryptography.hazmat.primitives.kdf.pbkdf2</span> <span class="kn">import</span> <span class="n">PBKDF2HMAC</span>
+<span class="kn">from</span> <span class="nn">hooker</span> <span class="kn">import</span> <span class="n">hook</span>
+
+<span class="n">FERNET</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="nd">@hook</span><span class="p">(</span><span class="s2">&quot;pre_open_in&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">pre_open_in</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">FERNET</span>
+
+    <span class="n">password</span> <span class="o">=</span> <span class="n">getpass</span><span class="p">(</span><span class="s2">&quot;Please enter password: &quot;</span><span class="p">)</span>
+
+    <span class="n">kdf</span> <span class="o">=</span> <span class="n">PBKDF2HMAC</span><span class="p">(</span>
+        <span class="n">algorithm</span><span class="o">=</span><span class="n">hashes</span><span class="o">.</span><span class="n">SHA256</span><span class="p">(),</span>
+        <span class="n">length</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+        <span class="n">salt</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;thisisunsafe!&quot;</span><span class="p">,</span>
+        <span class="n">iterations</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span>
+        <span class="n">backend</span><span class="o">=</span><span class="n">default_backend</span><span class="p">()</span>
+    <span class="p">)</span>
+    <span class="n">derived</span> <span class="o">=</span> <span class="n">kdf</span><span class="o">.</span><span class="n">derive</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">urlsafe_b64encode</span><span class="p">(</span><span class="n">derived</span><span class="p">)</span>
+
+    <span class="n">FERNET</span> <span class="o">=</span> <span class="n">Fernet</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">path</span>
+
+<span class="nd">@hook</span><span class="p">(</span><span class="s2">&quot;encrypt&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">FERNET</span>
+    <span class="k">return</span> <span class="n">FERNET</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+
+<span class="nd">@hook</span><span class="p">(</span><span class="s2">&quot;decrypt&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">decrypt</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">FERNET</span>
+    <span class="k">return</span> <span class="n">FERNET</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+</pre></div>
+</div>
 </div>
 </div>
 
