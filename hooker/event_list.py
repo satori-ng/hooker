@@ -90,3 +90,6 @@ class EventList():
 
     def __getitem__(self, name):
         return self._events[name]
+
+    def __repr__(self):  # pragma: no cover
+        return self._events.__repr__()
