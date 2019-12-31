@@ -1,8 +1,3 @@
-.. Hooker documentation master file, created by
-   sphinx-quickstart on Sun Oct 28 07:01:54 2018.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 Welcome to Hooker's documentation!
 ==================================
 
@@ -10,13 +5,19 @@ Welcome to Hooker's documentation!
    :maxdepth: 1
    :caption: Contents:
 
-   plugin_creators
    project_authors
+   plugin_creators
    example
    Reference <modules>
 
 Yellow! This is a simple project that makes the event-driver plugin
 architecture a bit easier in python.
+
+If you know what I'm talking about and want to use it in your project,
+read :doc:`this <project_authors>`
+
+If you know what I'm talking about and want to write a plugin that uses
+hooker, read :doc:`this <plugin_creators>`
 
 Here, take a look:
 
@@ -35,20 +36,23 @@ Here, take a look:
    print("Firing")
    # Fire your hooked event
    hooker.EVENTS["fire"]()
+   # cock() was called
+
+If you're a
 
 Event-driven plugin architecture?
 ---------------------------------
 
-It's the idea that whenever you carry out a "worthy" operation,
-you fire up an event, you take some results from the plugins
-and you act on them.
+It's the idea that whenever you carry out an operation "worthy"
+enough to be acted upon by plugins, you fire up an event,
+maybe take some results from the plugins and act on them.
 
 A "worthy" operation is a functionality that someone will likely
 be interested in changing through a plugin.
 
-An "event" is like broadcast to all currently loaded plugins and if
-someone is interested (which is declared through ``@hooker.hook`` decorator)
-it is notified and given the appropriate call arguments.
+An "event" is like a broadcasted message to all currently loaded plugins
+and if someone is interested (which is declared through the ``@hooker.hook``
+decorator) it is notified and given the appropriate call arguments.
 
 Take for example the following workflow of a program that performs decryption
 on the given file, without the utilization of events (let's say that you just
@@ -70,3 +74,6 @@ to model the above program so that you could for add decryption algorithms:
    digraph Flatland {
       "File exists?" -> "File is valid?" -> "Call event for decryption algorithms" -> "Decrypt file based on previous event" -> "Print result";
    }
+
+Of course there are many more points that it's useful to call events, but this
+is an example after all. To see code that does the above, take a look :doc:`here <example>`

@@ -1,9 +1,3 @@
-Real World Example
-==================
-
-Crypter
--------
-
 .. mdinclude:: ../example/crypter/README.md
 
 ``crypter.py``
