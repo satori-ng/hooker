@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Real World Example &mdash; hooker 0.4.8 documentation</title>
+  <title>Crypter &mdash; hooker 0.4.9 documentation</title>
   
 
   
@@ -37,7 +37,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="hooker" href="modules.html" />
-    <link rel="prev" title="Project Authors" href="project_authors.html" /> 
+    <link rel="prev" title="Plugin Creators" href="plugin_creators.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -83,16 +83,9 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="plugin_creators.html">Plugin Creators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_authors.html">Project Authors</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Real World Example</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#crypter">Crypter</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="#id1">Crypter</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#as-this-is-an-example-nobody-would-use-for-real-world-scenarios-right">As this is an example, nobody would use for real world scenarios, right?</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="plugin_creators.html">Plugin Creators</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Crypter</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">Reference</a></li>
 </ul>
 
@@ -139,7 +132,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Real World Example</li>
+      <li>Crypter</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -158,31 +151,25 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="real-world-example">
-<h1>Real World Example<a class="headerlink" href="#real-world-example" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="crypter">
-<h2>Crypter<a class="headerlink" href="#crypter" title="Permalink to this headline">¶</a></h2>
-</div>
-</div>
-<div class="section" id="id1">
-<h1>Crypter<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="crypter">
+<h1>Crypter<a class="headerlink" href="#crypter" title="Permalink to this headline">¶</a></h1>
 <p>This is an example usage of hooker. It takes an input file,
 transforms it (encrypt/encode/decrypt/decode) and writes it
 to the output file.</p>
-<p>Fernet encryption: <code class="docutils literal notranslate"><span class="pre">HOOKER_SCRIPTS=fernet</span> <span class="pre">py</span> <span class="pre">crypter.py</span> <span class="pre">-e</span> <span class="pre">/tmp/test</span> <span class="pre">/tmp/test.enc</span></code>
-Fernet decryption: <code class="docutils literal notranslate"><span class="pre">HOOKER_SCRIPTS=fernet</span> <span class="pre">py</span> <span class="pre">crypter.py</span> <span class="pre">-d</span> <span class="pre">/tmp/test.enc</span> <span class="pre">/tmp/test.dec</span></code></p>
 <p>The main script (<code class="docutils literal notranslate"><span class="pre">crypter.py</span></code>) only reads, writes files and determines
 if encryption or decryption takes place (from the <code class="docutils literal notranslate"><span class="pre">-e/-d</span></code> flag). It fires
 events to do the rest. So if you call it without <code class="docutils literal notranslate"><span class="pre">HOOKER_SCRIPTS</span></code>, the two
 files will be identical.</p>
+<p>Fernet encryption: <code class="docutils literal notranslate"><span class="pre">HOOKER_SCRIPTS=fernet</span> <span class="pre">py</span> <span class="pre">crypter.py</span> <span class="pre">-e</span> <span class="pre">/tmp/test</span> <span class="pre">/tmp/test.enc</span></code></p>
+<p>Fernet decryption: <code class="docutils literal notranslate"><span class="pre">HOOKER_SCRIPTS=fernet</span> <span class="pre">py</span> <span class="pre">crypter.py</span> <span class="pre">-d</span> <span class="pre">/tmp/test.enc</span> <span class="pre">/tmp/test.dec</span></code></p>
 <p>You can try <code class="docutils literal notranslate"><span class="pre">HOOKER_SCRIPTS=reverse</span></code>, which reverses its input.</p>
 <p>As an excercise, you can hook the <code class="docutils literal notranslate"><span class="pre">pre_open_out</span></code> and <code class="docutils literal notranslate"><span class="pre">pre_open_in</span></code> events to make
 the script read/write all the files in a hidden directory.</p>
 <p>You can see all the events and its description by calling:
 <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">hooker</span> <span class="pre">crypter.py</span></code></p>
-<div class="section" id="as-this-is-an-example-nobody-would-use-for-real-world-scenarios-right">
-<h2>As this is an example, nobody would use for real world scenarios, right?<a class="headerlink" href="#as-this-is-an-example-nobody-would-use-for-real-world-scenarios-right" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">crypter.py</span></code></p>
+<aside class="warning">
+As this is an example, nobody would use for real world scenarios, right?
+</aside><p><code class="docutils literal notranslate"><span class="pre">crypter.py</span></code></p>
 <div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="kn">from</span> <span class="nn">hooker</span> <span class="kn">import</span> <span class="n">EVENTS</span><span class="p">,</span> <span class="n">hook</span>
@@ -299,7 +286,6 @@ the script read/write all the files in a hidden directory.</p>
 </pre></div>
 </div>
 </div>
-</div>
 
 
            </div>
@@ -312,7 +298,7 @@ the script read/write all the files in a hidden directory.</p>
         <a href="modules.html" class="btn btn-neutral float-right" title="hooker" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="project_authors.html" class="btn btn-neutral float-left" title="Project Authors" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="plugin_creators.html" class="btn btn-neutral float-left" title="Plugin Creators" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Welcome to Hooker’s documentation! &mdash; hooker 0.4.8 documentation</title>
+  <title>Welcome to Hooker’s documentation! &mdash; hooker 0.4.9 documentation</title>
   
 
   
@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Plugin Creators" href="plugin_creators.html" /> 
+    <link rel="next" title="Project Authors" href="project_authors.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -82,10 +82,9 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="plugin_creators.html">Plugin Creators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_authors.html">Project Authors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="example.html">Real World Example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="example.html#id1">Crypter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugin_creators.html">Plugin Creators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example.html">Crypter</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">Reference</a></li>
 </ul>
 
@@ -156,15 +155,18 @@
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="plugin_creators.html">Plugin Creators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_authors.html">Project Authors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="example.html">Real World Example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="example.html#id1">Crypter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugin_creators.html">Plugin Creators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example.html">Crypter</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">Reference</a></li>
 </ul>
 </div>
 <p>Yellow! This is a simple project that makes the event-driver plugin
 architecture a bit easier in python.</p>
+<p>If you know what I’m talking about and want to use it in your project,
+read <a class="reference internal" href="project_authors.html"><span class="doc">this</span></a></p>
+<p>If you know what I’m talking about and want to write a plugin that uses
+hooker, read <a class="reference internal" href="plugin_creators.html"><span class="doc">this</span></a></p>
 <p>Here, take a look:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">hooker</span>
 <span class="c1"># State your event</span>
@@ -179,18 +181,20 @@ architecture a bit easier in python.</p>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Firing&quot;</span><span class="p">)</span>
 <span class="c1"># Fire your hooked event</span>
 <span class="n">hooker</span><span class="o">.</span><span class="n">EVENTS</span><span class="p">[</span><span class="s2">&quot;fire&quot;</span><span class="p">]()</span>
+<span class="c1"># cock() was called</span>
 </pre></div>
 </div>
+<p>If you’re a</p>
 <div class="section" id="event-driven-plugin-architecture">
 <h2>Event-driven plugin architecture?<a class="headerlink" href="#event-driven-plugin-architecture" title="Permalink to this headline">¶</a></h2>
-<p>It’s the idea that whenever you carry out a “worthy” operation,
-you fire up an event, you take some results from the plugins
-and you act on them.</p>
+<p>It’s the idea that whenever you carry out an operation “worthy”
+enough to be acted upon by plugins, you fire up an event,
+maybe take some results from the plugins and act on them.</p>
 <p>A “worthy” operation is a functionality that someone will likely
 be interested in changing through a plugin.</p>
-<p>An “event” is like broadcast to all currently loaded plugins and if
-someone is interested (which is declared through <code class="docutils literal notranslate"><span class="pre">&#64;hooker.hook</span></code> decorator)
-it is notified and given the appropriate call arguments.</p>
+<p>An “event” is like a broadcasted message to all currently loaded plugins
+and if someone is interested (which is declared through the <code class="docutils literal notranslate"><span class="pre">&#64;hooker.hook</span></code>
+decorator) it is notified and given the appropriate call arguments.</p>
 <p>Take for example the following workflow of a program that performs decryption
 on the given file, without the utilization of events (let’s say that you just
 give a file as a parameter to that program):</p>
@@ -200,7 +204,9 @@ digraph Flatland {
 to model the above program so that you could for add decryption algorithms:</p>
 digraph Flatland {
    &quot;File exists?&quot; -&gt; &quot;File is valid?&quot; -&gt; &quot;Call event for decryption algorithms&quot; -&gt; &quot;Decrypt file based on previous event&quot; -&gt; &quot;Print result&quot;;
-}</div>
+}<p>Of course there are many more points that it’s useful to call events, but this
+is an example after all. To see code that does the above, take a look <a class="reference internal" href="example.html"><span class="doc">here</span></a></p>
+</div>
 </div>
 
 
@@ -211,7 +217,7 @@ digraph Flatland {
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="plugin_creators.html" class="btn btn-neutral float-right" title="Plugin Creators" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="project_authors.html" class="btn btn-neutral float-right" title="Project Authors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Project Authors &mdash; hooker 0.4.8 documentation</title>
+  <title>Project Authors &mdash; hooker 0.4.9 documentation</title>
   
 
   
@@ -36,8 +36,8 @@
   <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Real World Example" href="example.html" />
-    <link rel="prev" title="Plugin Creators" href="plugin_creators.html" /> 
+    <link rel="next" title="Plugin Creators" href="plugin_creators.html" />
+    <link rel="prev" title="Welcome to Hooker’s documentation!" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -83,10 +83,9 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="plugin_creators.html">Plugin Creators</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Project Authors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="example.html">Real World Example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="example.html#id1">Crypter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugin_creators.html">Plugin Creators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example.html">Crypter</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">Reference</a></li>
 </ul>
 
@@ -155,6 +154,7 @@
   <div class="section" id="project-authors">
 <h1>Project Authors<a class="headerlink" href="#project-authors" title="Permalink to this headline">¶</a></h1>
 <p>First you got to declare your event like that:</p>
+<p><code class="docutils literal notranslate"><span class="pre">my_project.py</span></code></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">hooker</span>
 <span class="n">hooker</span><span class="o">.</span><span class="n">EVENTS</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;on_start&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;This will be called on start&quot;</span><span class="p">)</span>
 <span class="n">hooker</span><span class="o">.</span><span class="n">EVENTS</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;with_open&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;This will be called after the file is opened&quot;</span><span class="p">)</span>
@@ -168,21 +168,33 @@
 hooks.</p>
 </div>
 <p>And then you can fire it whenever you like, like this:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">results1</span> <span class="o">=</span> <span class="n">hooker</span><span class="o">.</span><span class="n">EVENTS</span><span class="p">[</span><span class="s2">&quot;on_start&quot;</span><span class="p">]()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># later in my_project.py</span>
+<span class="n">results1</span> <span class="o">=</span> <span class="n">hooker</span><span class="o">.</span><span class="n">EVENTS</span><span class="p">[</span><span class="s2">&quot;on_start&quot;</span><span class="p">]()</span>
 <span class="n">results2</span> <span class="o">=</span> <span class="n">hooker</span><span class="o">.</span><span class="n">EVENTS</span><span class="p">[</span><span class="s2">&quot;with_open&quot;</span><span class="p">](</span><span class="s2">&quot;/tmp/path&quot;</span><span class="p">,</span> <span class="mi">1234</span><span class="p">)</span>
 </pre></div>
+</div>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Don’t use <code class="docutils literal notranslate"><span class="pre">__retvals__</span></code> as argument when you’re calling a hook.
+It is a reserved magic argument that a hook can include in its
+signature to get the results of its ancestors. For more, read
+<a class="reference internal" href="plugin_creators.html"><span class="doc">here</span></a></p>
 </div>
 <p>The return value is an <a class="reference external" href="https://docs.python.org/3/library/collections.html#collections.OrderedDict">OrderedDict</a>:
 <code class="docutils literal notranslate"><span class="pre">{&lt;hook_function_pointer&gt;:</span> <span class="pre">&lt;return</span> <span class="pre">value&gt;}</span></code>, so that you know exactly
 the order that the hooks where fired and you can get info about the hook
-from the function pointer.</p>
-<p>You don’t have to import all the plugins, as the user can use the
-<code class="docutils literal notranslate"><span class="pre">HOOKER_SCRIPTS</span></code> environment variable.</p>
-<div class="admonition attention" id="note-don-t-use-retvals-as-argument-when-you-re-calling-a-hook-it-is-a-reserved-magic-variable">
-<p class="admonition-title">Attention</p>
-<p>NOTE: Don’t use <code class="docutils literal notranslate"><span class="pre">__retvals__</span></code> as argument when you’re calling a hook. It is a reserved magic variable!</p>
+from the function pointer. The exact hook info should not be of real
+interest to you, but with python’s <code class="docutils literal notranslate"><span class="pre">inspect</span></code> module, you can see a lot
+of stuff about the extension.</p>
+<p>Now the problem is that you don’t (and don’t want to) know which plugins
+will be loaded on runtime, so <code class="docutils literal notranslate"><span class="pre">import``ing</span> <span class="pre">them</span> <span class="pre">is</span> <span class="pre">out</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">game.</span>
+<span class="pre">Thank</span> <span class="pre">god</span> <span class="pre">the</span> <span class="pre">user</span> <span class="pre">can</span> <span class="pre">use</span> <span class="pre">the</span> <span class="pre">``HOOKER_SCRIPTS</span></code> environment variable.</p>
+<p>The user can call your program as follows, without you even worrying:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ <span class="nv">HOOKER_SCRIPTS</span><span class="o">=</span>random_plugin python my_project.py
+</pre></div>
 </div>
-<p>Happy Hacking! :)</p>
+<p>If you do create a project that uses hooker, ping me so I can add you
+in the README <code class="docutils literal notranslate"><span class="pre">Used</span> <span class="pre">By</span></code> list!</p>
 </div>
 
 
@@ -193,10 +205,10 @@ from the function pointer.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="example.html" class="btn btn-neutral float-right" title="Real World Example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="plugin_creators.html" class="btn btn-neutral float-right" title="Plugin Creators" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="plugin_creators.html" class="btn btn-neutral float-left" title="Plugin Creators" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to Hooker’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

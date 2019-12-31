@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Plugin Creators &mdash; hooker 0.4.8 documentation</title>
+  <title>Plugin Creators &mdash; hooker 0.4.9 documentation</title>
   
 
   
@@ -36,8 +36,8 @@
   <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Project Authors" href="project_authors.html" />
-    <link rel="prev" title="Welcome to Hooker’s documentation!" href="index.html" /> 
+    <link rel="next" title="Crypter" href="example.html" />
+    <link rel="prev" title="Project Authors" href="project_authors.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -83,6 +83,7 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="project_authors.html">Project Authors</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Plugin Creators</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#event-discovery">Event discovery</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#hook-declaration">Hook declaration</a><ul>
@@ -91,11 +92,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#the-one-that-uses-previous-hooks">The one that uses previous hooks</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#using-your-plugin">Using your plugin</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="project_authors.html">Project Authors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="example.html">Real World Example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="example.html#id1">Crypter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example.html">Crypter</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">Reference</a></li>
 </ul>
 
@@ -163,20 +163,34 @@
             
   <div class="section" id="plugin-creators">
 <h1>Plugin Creators<a class="headerlink" href="#plugin-creators" title="Permalink to this headline">¶</a></h1>
+<p>So you found a project that uses hooker! Yey! But it’s missing that
+XYZ feature. Nay…</p>
+<p>Let’s see how you can extend this program via hooker plugins!</p>
 <div class="section" id="event-discovery">
 <h2>Event discovery<a class="headerlink" href="#event-discovery" title="Permalink to this headline">¶</a></h2>
 <p>First of all you have to find the events that the developer of your
 project provides. If the author does not give any info about the events
-or they are outdated <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">hooker</span> <span class="pre">&lt;script&gt;</span></code> can help. It doesn’t
-work too well, but it’s a good start. If the developer does not give any
-help even with <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">hooker</span></code>, break his balls to add some.</p>
-<p>You can inject your code by adding your script too <code class="docutils literal notranslate"><span class="pre">HOOKER_SCRIPTS</span></code>.
-Either as module path or as regular filepath:</p>
-<p><code class="docutils literal notranslate"><span class="pre">HOOKER_SCRIPTS=plugins.simple_hook:plugins.simple_hook_with_dependency</span></code>
-is exactly the same with
-<code class="docutils literal notranslate"><span class="pre">HOOKER_SCRIPTS=plugins/simple_hook.py:plugins/simple_hook_with_dependency.py</span></code></p>
-<p>On the other hand, regular python’s <code class="docutils literal notranslate"><span class="pre">import</span></code> will work as well, but it
-will not give you the flexibility to interchange modules on each run.</p>
+or they are outdated, <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">hooker</span> <span class="pre">&lt;script&gt;</span></code> can help. It doesn’t
+work too well (due to various reasons that I probably can’t fix),
+but it’s a good start. If the developer does not give any help even
+with <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">hooker</span></code>, break his balls to add some. Or you do that
+and do a Merge Request. It’s VERY easy, <a class="reference internal" href="project_authors.html"><span class="doc">check it out</span></a>.
+It’s even written on the first paragraph! Anyway…</p>
+<p>Test it in this project’s <a class="reference internal" href="example.html"><span class="doc">crypter</span></a> example:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>hooker/example/crypter $ python -m hooker crypter.py
+
+pre_open_in: Input file will open. Arguments: path&lt;str&gt;. Return: path&lt;str&gt; - /home/dzervas/Lab/satori/hooker/example/crypter/crypter.py:6
+pre_open_out: Output file will open. Arguments: path&lt;str&gt;. Return: path&lt;str&gt; - /home/dzervas/Lab/satori/hooker/example/crypter/crypter.py:7
+encrypt: Encrypt data. Arguments: data&lt;bytearray&gt;. Return: data&lt;str&gt; - /home/dzervas/Lab/satori/hooker/example/crypter/crypter.py:8
+decrypt: Decrypt data. Arguments: data&lt;bytearray&gt;. Return: data&lt;str&gt; - /home/dzervas/Lab/satori/hooker/example/crypter/crypter.py:9
+</pre></div>
+</div>
+<p>The first column is the event name (that’s what you’ve been searching!),
+second is what that event is all about and the last is the file and line number
+that the event is declared (useful when you want to read the code around it).</p>
+<p>So, by now you should have the event that you want to hook on, in order to
+implement the missing functionality.</p>
+<p>Let’s code!</p>
 </div>
 <div class="section" id="hook-declaration">
 <h2>Hook declaration<a class="headerlink" href="#hook-declaration" title="Permalink to this headline">¶</a></h2>
@@ -208,12 +222,13 @@ function will run.</p>
 
 <span class="nd">@hooker</span><span class="o">.</span><span class="n">hook</span><span class="p">(</span><span class="s2">&quot;on_start&quot;</span><span class="p">,</span> <span class="s2">&quot;simple_hook&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">bar</span><span class="p">(</span><span class="n">argument_1</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;I&#39;ll be called when crawler starts, but after simple_hook is run&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;I&#39;ll be called when crawler starts, but after simple_hook is run!&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="s2">&quot;world&quot;</span>
 </pre></div>
 </div>
 <p>If no dependency is used, hook calling is determined by the order that
-the module was imported.</p>
+the module was imported (that could change, use dependencies if your
+code can’t run before another plugin is run).</p>
 </div>
 <div class="section" id="the-one-that-uses-previous-hooks">
 <h3>The one that uses previous hooks<a class="headerlink" href="#the-one-that-uses-previous-hooks" title="Permalink to this headline">¶</a></h3>
@@ -233,10 +248,20 @@ events, you can use a list of event names as well.</p>
     <span class="k">return</span> <span class="s2">&quot;asdf!&quot;</span>
 </pre></div>
 </div>
-<p>NOTE: The above code does NOT run, as it hooks 2 events and has 2
+<div class="admonition error">
+<p class="admonition-title">Error</p>
+<p>The above code does NOT run, as it hooks 2 events and has 2
 dependencies. The dependencies are applicable to both events</p>
+</div>
 <p>That means that both <code class="docutils literal notranslate"><span class="pre">simple_hook</span></code> and <code class="docutils literal notranslate"><span class="pre">simple_hook_with_dependency</span></code>
-must hook both <code class="docutils literal notranslate"><span class="pre">on_start</span></code> and <code class="docutils literal notranslate"><span class="pre">with_open</span></code>, which is not the case.</p>
+must hook both <code class="docutils literal notranslate"><span class="pre">on_start</span></code> and <code class="docutils literal notranslate"><span class="pre">with_open</span></code>, which is not the case. Why?</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">on_start</span></code> is fired, <code class="docutils literal notranslate"><span class="pre">simple_hook</span></code> is run, then
+<code class="docutils literal notranslate"><span class="pre">simple_hook_with_dependency</span></code> is run and then <code class="docutils literal notranslate"><span class="pre">baz</span></code>.
+<code class="docutils literal notranslate"><span class="pre">baz</span></code> runs last because it depends on the other 2.</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">with_open</span></code> runs, <code class="docutils literal notranslate"><span class="pre">simple_hook</span></code> and <code class="docutils literal notranslate"><span class="pre">simple_hook_with_dependency</span></code>
+will <strong>NOT</strong> run, as they have declared that they hook only
+the <code class="docutils literal notranslate"><span class="pre">on_start</span></code> event!</p>
+<p>This is an example of missing dependency!</p>
 <p>To work around that, you can do the following:</p>
 <p><code class="docutils literal notranslate"><span class="pre">__retvals___with_multi_deps.py</span></code></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">hooker</span>
@@ -247,11 +272,25 @@ must hook both <code class="docutils literal notranslate"><span class="pre">on_s
 <span class="k">def</span> <span class="nf">baz</span><span class="p">(</span><span class="n">argument_1</span><span class="p">,</span> <span class="n">__retvals__</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">__retvals__</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;I&#39;ll be called after simple_hook and simple_hook_with_dependency on on_start&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;But I&#39;ll be called on with_open too!&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;But I&#39;ll be called on with_open too - probably alone&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="s2">&quot;asdf!&quot;</span>
 </pre></div>
 </div>
 </div>
+</div>
+<div class="section" id="using-your-plugin">
+<h2>Using your plugin<a class="headerlink" href="#using-your-plugin" title="Permalink to this headline">¶</a></h2>
+<p>By now you should have at least SOME hook that awaits patiently for an event.
+You can call that a plugin! But how do you call (= use) it?</p>
+<p>You can inject your code by adding your script to <code class="docutils literal notranslate"><span class="pre">HOOKER_SCRIPTS</span></code>.
+Either as module path or as regular filepath:</p>
+<p><code class="docutils literal notranslate"><span class="pre">HOOKER_SCRIPTS=plugins.simple_hook:plugins.simple_hook_with_dependency</span></code>
+is exactly the same with
+<code class="docutils literal notranslate"><span class="pre">HOOKER_SCRIPTS=plugins/simple_hook.py:plugins/simple_hook_with_dependency.py</span></code></p>
+<p>On the other hand, regular python’s <code class="docutils literal notranslate"><span class="pre">import</span></code> will work as well, but it
+will not give you the flexibility to interchange modules on each run,
+as you will have to <code class="docutils literal notranslate"><span class="pre">import</span></code> your plugin inside the project.</p>
+<p>This is useful for projects that rely solely on plugins.</p>
 </div>
 </div>
 
@@ -263,10 +302,10 @@ must hook both <code class="docutils literal notranslate"><span class="pre">on_s
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="project_authors.html" class="btn btn-neutral float-right" title="Project Authors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="example.html" class="btn btn-neutral float-right" title="Crypter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to Hooker’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="project_authors.html" class="btn btn-neutral float-left" title="Project Authors" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
