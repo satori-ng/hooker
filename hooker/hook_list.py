@@ -33,12 +33,14 @@ class HOrderedDict(OrderedDict):
 
 
 class HookList(list):
-    """Profesional grade list of hooks. Manages dependcy checking n' shit"""
-    _run = False
+    """Professional grade list of hooks. Manages dependency checking."""
+    # _run = False
 
-    def __init__(self, is_waterfall=False, *args, **kwargs):
+    def __init__(self, event_name, is_waterfall=False, *args, **kwargs):
+        self._run = False
         self._later = []
         self.is_waterfall = is_waterfall
+        self.event_name = event_name
         super(HookList, self).__init__(*args, **kwargs)
 
     def __call__(self, *args, **kwargs):
@@ -53,10 +55,13 @@ class HookList(list):
         passed in each hook function, if it exists in its signature.
         """
 
+        # Use reflection to access the calling event from local var below:
+        event_name = self.event_name
+
         # Check for first run in order to load scripts from environment variable
         if not self._run:
             self._run = True
-            for script in os.getenv("HOOKER_SCRIPTS","").split(":"):
+            for script in os.getenv("HOOKER_SCRIPTS","").split(","):
                 if script: # Check for empty string
                     hooker.load(script)
 
@@ -70,15 +75,13 @@ class HookList(list):
 
         if self.is_waterfall:
             for func in self:
-                args = func(*args)
+                args = func(*args, **kwargs)
 
             return args
 
         # Prepare the __retvals__, which contains the return values of all previous
         # hooks for THIS event
         retval = HOrderedDict()
-        if not kwargs:
-            kwargs = {}
 
         # Now call the hooks
         for func in self:
@@ -87,8 +90,7 @@ class HookList(list):
 
             # Search the position of the positional argument "__retvals__"
             if "__retvals__" in kwargs.keys():
-                raise HookException("WTF man? Don't use '__retvals__' argument, it is used internally! \
-                               (read the wiki fucker)")
+                raise HookException("Usage of name '__retvals__' in parameter is prohibited as it is used internally!")
             else:
                 try:
                     position = signature.args.index("__retvals__")
@@ -100,12 +102,12 @@ class HookList(list):
                 # Put return values in the found position
                 nargs.insert(position, retval)
 
-            # Skip extension if it doens't accept the arguments passed
+            # Skip extension if it doesn't accept the arguments passed
             try:
                 # Using deprecated getcallargs to be python2 compatible
                 inspect.getcallargs(func, *nargs, **kwargs)
             except TypeError:
-                logger.warning("Skipping %s due to limited arguments" % func.__name__)
+                logger.warning("Skipping '%s' due to limited arguments" % func.__name__)
                 continue
 
             retval[func] = func(*nargs, **kwargs)

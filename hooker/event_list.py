@@ -1,22 +1,24 @@
-try:
-    from collections.abc import Iterable
-except ImportError:  # pragma: no py3 cover
-    # Python 2
-    from collections import Iterable
+from collections.abc import Iterable
 
 from inspect import getframeinfo, stack
+import fnmatch
 
 from .logger import logger
 from .hook_list import HookList
 
 
 class EventList():
-    """A list that holds all the events, each of which hold all hooks"""
+
     _events = {}
     _help = {}
 
     def __init__(self, is_waterfall=False):
+        """A list that holds all the events, each of which hold all hooks"""
         self.is_waterfall = is_waterfall
+
+    def clear(self):
+        self._events.clear()
+        self._help.clear()
 
     def append(self, event, help=""):
         """Creates a new event. `event` may be iterable or string
@@ -33,26 +35,26 @@ class EventList():
         **Please** describe the event and its calling arguments in the help
         string.
         """
-        if isinstance(event, str):
-            self._events[event] = HookList(is_waterfall=self.is_waterfall)
-            self._help[event] = (help, getframeinfo(stack()[1][0]))
+
+        if not isinstance(event, list):
+            event = [event]
+
+        for e in event:
+            if not isinstance(e, str):
+                raise TypeError("Events must be strings, '%s' given" % type(e))
+
+            self._events[e] = HookList(e, is_waterfall=self.is_waterfall)
+            self._help[e] = (help, getframeinfo(stack()[1][0]))
 
             if not help:
-                logger.debug("Great, don't say anything about your hooks and \
-                wait for plugin creators to figure it out.")
-        elif isinstance(event, Iterable):
-            # Depricated. It does not give the ability to give help string
-            # TODO: Remove this
-            for name in event:
-                self.append(name)
-        else:
-            raise TypeError("Invalid event name!")
+                logger.debug("It is advised to provide a 'help' parameter for the created events")
 
-    def hook(self, function, event, dependencies):
+    def hook(self, function, event='*', dependencies=[]):
         """Tries to load the hook to the event
 
         Args:
             function (func): Function that will be called when the event is called
+            event (str): Name or glob to match events to hook
 
         Kwargs:
             dependencies (str): String or Iterable with modules whose hooks should be called before this one
@@ -65,31 +67,34 @@ class EventList():
         and `child` enumerates `parent` as dependcy, **both** `foo` and `bar`
         must be called in order for the dependcy to get resolved.
         """
-        # Hooks all events (recursively)
-        if event is None:
-            for e in self._events.keys():
-                self.hook(function, e, dependencies)
-            return
 
-        # Hook multiple, but specific events (recursively)
-        if not isinstance(event, str) and isinstance(event, Iterable):
-            for e in event:
-                self.hook(function, e, dependencies)
-            return
+        # Hooks all events (applying the glob)
 
-        # Hook a simple event
-        event_list = self._events.get(event, None)
-        if event_list is None:
-            logger.debug(
-                "Invalid key provided '%s'. Valid options: %s. Ignoring!"
-                % (event, ", ".join(self._events.keys()))
-            )
-            return
+        if not isinstance(event, list):
+            event = [event]
 
-        return event_list.hook(function, dependencies)
+        matching_events = []
+        for e in event:
+            if not e: continue
+            m = fnmatch.filter(self._events.keys(), e)
+            if len(m) == 0:
+                logger.warning(
+                    "Invalid key/glob provided '%s'. Valid Events: '%s'. Ignoring!"
+                    % (event, ", ".join(self._events.keys()))
+                )
+            matching_events.extend(m)
+            matching_events = sorted(matching_events)
+
+        for e in matching_events:
+            # Hook a simple event
+            hook_list = self._events[e]
+            hook_list.hook(function, dependencies)
 
     def __getitem__(self, name):
         return self._events[name]
 
     def __repr__(self):  # pragma: no cover
         return self._events.__repr__()
+
+    def __len__(self):
+        return self._events.__len__()
