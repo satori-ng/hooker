@@ -76,14 +76,9 @@ class EventList():
         matching_events = []
         for e in event:
             if not e: continue
-            m = fnmatch.filter(self._events.keys(), e)
-            if len(m) == 0:
-                logger.warning(
-                    "Invalid key/glob provided '%s'. Valid Events: '%s'. Ignoring!"
-                    % (event, ", ".join(self._events.keys()))
-                )
+            m = self._match_event(e)
             matching_events.extend(m)
-            matching_events = sorted(matching_events)
+        matching_events = sorted(matching_events)
 
         for e in matching_events:
             # Hook a simple event
@@ -98,3 +93,20 @@ class EventList():
 
     def __len__(self):
         return self._events.__len__()
+
+    def _match_event(self, event_pattern):
+        matching_events = fnmatch.filter(self._events.keys(), event_pattern)
+        if len(matching_events) == 0:
+            logger.warning(
+                "Invalid key/glob provided '%s'. Valid Events: '%s'. Ignoring!"
+                % (event_pattern, ", ".join(self._events.keys()))
+            )
+        return sorted(matching_events)
+
+    def call(self, event_name, *args, **kwargs):
+        matching_events = self._match_event(event_name)
+        ret = {}
+        for e in matching_events:
+            hook_list = self._events[e]
+            ret[e] = hook_list(*args, **kwargs)
+        return ret
