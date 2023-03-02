@@ -32,7 +32,6 @@ class TestGlob(unittest.TestCase):
     		return -a
 
     	ret = hooker.EVENTS['test/2'](1)
-    	print(ret)
 
     	self.assertEqual(len(ret), 2)
     	self.assertEqual(ret.last[1], -1)
