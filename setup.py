@@ -19,7 +19,7 @@ except IOError:
     LONG_DESCRIPTION = hooker.__github__ + "/blob/master/README.md"
 
 if not hasattr(hooker, "__version__"):
-    hooker.__version__ = "develop"
+    hooker.__version__ = "0.0.0-dev"
 
 
 setup(
