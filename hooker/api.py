@@ -21,20 +21,22 @@ def reset():
     WATERFALL = EventList(is_waterfall=True)
 
 
-def hook(event='*', dependencies=None, event_list=EVENTS):
+def hook(event='*', dependencies=None, event_list=EVENTS, expand=True):
     """Hooking decorator. Just `@hook(event, dependencies)` on your function
 
     Kwargs:
         event (str): String or Iterable with events to hook
         dependencies (str): String or Iterable with module names whose hooks have
             to be called before this one for **this** event
+        event_list (EventList): The EventList object that will get assigned the hooked event
+        expand (bool): Whether to interpret the 'event' as a glob
 
     Wraps :func:`EventList.hook`
     """
 
     def wrapper(func):
         """I'm a simple wrapper that manages event hooking"""
-        event_list.hook(func, event, dependencies)
+        event_list.hook(func, event, dependencies, expand=expand)
         return func
     return wrapper
 
@@ -81,7 +83,9 @@ def load(path, overwrite=True):
             logger.error("Module or file '%s' was not found! Ignoring...", importpath)
 
 def get_event_name():
-    try:    # _getframe is faster but implementation specific
-        return sys._getframe(2).f_locals['event_name']
-    except:
-        return inspect.stack()[2].frame.f_locals['event_name']
+    for i in range(10):
+        try:    # _getframe is faster but implementation specific
+            return sys._getframe(i).f_locals['event_name']
+            # return inspect.stack()[1].frame.f_locals['event_name']
+        except:
+            continue

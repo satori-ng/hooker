@@ -9,11 +9,14 @@ from .hook_list import HookList
 
 class EventList():
 
-    _events = {}
-    _help = {}
+    # _events = {}
+    # _help = {}
 
     def __init__(self, is_waterfall=False):
         """A list that holds all the events, each of which hold all hooks"""
+        self._events = {}
+        self._help = {}
+
         self.is_waterfall = is_waterfall
 
     def clear(self):
@@ -49,12 +52,13 @@ class EventList():
             if not help:
                 logger.debug("It is advised to provide a 'help' parameter for the created events")
 
-    def hook(self, function, event='*', dependencies=[]):
+    def hook(self, function, event='*', dependencies=[], expand=True):
         """Tries to load the hook to the event
 
         Args:
             function (func): Function that will be called when the event is called
             event (str): Name or glob to match events to hook
+            expand (bool): Whether to interpret the 'event' as a glob
 
         Kwargs:
             dependencies (str): String or Iterable with modules whose hooks should be called before this one
@@ -76,7 +80,10 @@ class EventList():
         matching_events = []
         for e in event:
             if not e: continue
-            m = self._match_event(e)
+
+            if expand:
+                m = self._match_event(e)
+
             matching_events.extend(m)
         matching_events = sorted(matching_events)
 
@@ -104,9 +111,13 @@ class EventList():
         return sorted(matching_events)
 
     def call(self, event_name, *args, **kwargs):
-        matching_events = self._match_event(event_name)
-        ret = {}
-        for e in matching_events:
-            hook_list = self._events[e]
-            ret[e] = hook_list(*args, **kwargs)
-        return ret
+        expand = kwargs.pop('expand', True)
+        if expand:
+            matching_events = self._match_event(event_name)
+            ret = {}
+            for e in matching_events:
+                hook_list = self._events[e]
+                ret[e] = hook_list(*args, **kwargs)
+            return ret
+        else:
+            return self._events[event_name](*args, **kwargs)
