@@ -89,3 +89,6 @@ def get_event_name():
             # return inspect.stack()[1].frame.f_locals['event_name']
         except:
             continue
+
+def events(pattern='*'):
+    return EVENTS._match_event(pattern)

@@ -101,7 +101,7 @@ class EventList():
     def __len__(self):
         return self._events.__len__()
 
-    def _match_event(self, event_pattern):
+    def _match_event(self, event_pattern='*'):
         matching_events = fnmatch.filter(self._events.keys(), event_pattern)
         if len(matching_events) == 0:
             logger.warning(
