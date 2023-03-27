@@ -1,7 +1,7 @@
 name: Deploy new application version
 
 on:
-  create:
+  push:
     tags:
       - v*
 
