@@ -26,6 +26,7 @@ setup(
     name=hooker.__name__,
     description=hooker.__desc__,
     long_description=LONG_DESCRIPTION,
+    long_description_content_type="text/markdown",
     version=hooker.__version__,
 
     author="Satori-NG org",
